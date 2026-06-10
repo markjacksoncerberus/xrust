@@ -4,8 +4,10 @@ use crate::Item;
 use crate::item::{Node, NodeType, Sequence, SequenceTrait};
 use crate::transform::context::{Context, ContextBuilder, StaticContext};
 use crate::transform::{Axis, NodeMatch, Transform};
+use crate::value::ValueData;
 use crate::xdmerror::{Error, ErrorKind};
 use qualname::{NcName, QName};
+use std::cmp::Ordering;
 use url::Url;
 
 /// The root node of the context item.
@@ -283,7 +285,9 @@ fn get_node<N: Node>(i: &Item<N>) -> Result<&N, Error> {
     }
 }
 
-/// Remove items that don't match the predicate.
+/// Remove items in the context that don't match the predicate. Used for the
+/// `(expr)[predicate]` (FilterExpr) form, where the predicate applies over the
+/// whole context node-set.
 pub(crate) fn filter<
     N: Node,
     F: FnMut(&str) -> Result<(), Error>,
@@ -294,25 +298,142 @@ pub(crate) fn filter<
     stctxt: &mut StaticContext<N, F, G, H>,
     predicate: &Transform<N>,
 ) -> Result<Sequence<N>, Error> {
-    // The outer context remains the same, but the inner focus will be each item in the context in turn.
-    let outer = ctxt.current.clone();
-    let outer_item = ctxt.current_item.clone();
-    ctxt.context
-        .iter()
-        .enumerate()
-        .try_fold(vec![], |mut acc, (j, i)| {
-            if ContextBuilder::from(ctxt)
-                .context(vec![i.clone()])
-                .context_item(Some(i.clone()))
-                .current(outer.clone())
-                .current_item(outer_item.clone())
-                .index(j)
-                .build()
-                .dispatch(stctxt, predicate)?
-                .to_bool()
-            {
-                acc.push(i.clone())
+    let seq = ctxt.context.clone();
+    let current = ctxt.current.clone();
+    let current_item = ctxt.current_item.clone();
+    filter_seq(ctxt, stctxt, seq, predicate, current, current_item)
+}
+
+/// Filter a node-list `seq` by one predicate, with `position()`/`last()`
+/// relative to `seq` and XPath 1.0 §2.4 numeric-predicate semantics: when the
+/// predicate value is a number `N` it means `position()=N`; otherwise the
+/// predicate's effective boolean value is used.
+pub(crate) fn filter_seq<
+    N: Node,
+    F: FnMut(&str) -> Result<(), Error>,
+    G: FnMut(&str) -> Result<N, Error>,
+    H: FnMut(&Url) -> Result<String, Error>,
+>(
+    ctxt: &Context<N>,
+    stctxt: &mut StaticContext<N, F, G, H>,
+    seq: Sequence<N>,
+    predicate: &Transform<N>,
+    current: Sequence<N>,
+    current_item: Option<Item<N>>,
+) -> Result<Sequence<N>, Error> {
+    // The inner focus is each item of `seq` in turn; last() reports the size of
+    // `seq`. `current`/`current_item` (the XSLT current node) are supplied by
+    // the caller.
+    let len = seq.len();
+    seq.iter().enumerate().try_fold(vec![], |mut acc, (j, i)| {
+        let result = ContextBuilder::from(ctxt)
+            .context(vec![i.clone()])
+            .context_item(Some(i.clone()))
+            .current(current.clone())
+            .current_item(current_item.clone())
+            .index(j)
+            .last(len)
+            .build()
+            .dispatch(stctxt, predicate)?;
+        let keep = match predicate_number(&result) {
+            Some(n) => n == (j as f64 + 1.0),
+            None => result.to_bool(),
+        };
+        if keep {
+            acc.push(i.clone());
+        }
+        Ok(acc)
+    })
+}
+
+/// If a predicate evaluated to a single numeric atomic value, return it.
+/// Booleans, strings, and node-sets yield `None` (they use boolean value).
+fn predicate_number<N: Node>(seq: &Sequence<N>) -> Option<f64> {
+    if seq.len() != 1 {
+        return None;
+    }
+    match &seq[0] {
+        Item::Value(v) => match v.value_ref() {
+            ValueData::Decimal(_)
+            | ValueData::Float(_)
+            | ValueData::Double(_)
+            | ValueData::Integer(_)
+            | ValueData::NonPositiveInteger(_)
+            | ValueData::NegativeInteger(_)
+            | ValueData::Long(_)
+            | ValueData::Int(_)
+            | ValueData::Short(_)
+            | ValueData::Byte(_)
+            | ValueData::NonNegativeInteger(_)
+            | ValueData::UnsignedLong(_)
+            | ValueData::UnsignedInt(_)
+            | ValueData::UnsignedShort(_)
+            | ValueData::UnsignedByte(_)
+            | ValueData::PositiveInteger(_)
+            | ValueData::Numeric => Some(v.to_double()),
+            _ => None,
+        },
+        _ => None,
+    }
+}
+
+/// Evaluate an axis step together with its predicate list. The predicates are
+/// applied **per context node** — for each node in the context, the axis result
+/// is computed and the predicates filter that per-node node-list (so
+/// `position()`/`last()` are relative to each parent's matches). Results are
+/// merged into a single document-ordered, duplicate-free node-set.
+pub(crate) fn step_predicated<
+    N: Node,
+    F: FnMut(&str) -> Result<(), Error>,
+    G: FnMut(&str) -> Result<N, Error>,
+    H: FnMut(&Url) -> Result<String, Error>,
+>(
+    ctxt: &Context<N>,
+    stctxt: &mut StaticContext<N, F, G, H>,
+    nm: &NodeMatch,
+    predicates: &[Transform<N>],
+) -> Result<Sequence<N>, Error> {
+    // Reverse axes number position() from the context node outward, so the
+    // axis result must be ordered nearest-context-first before predicates run.
+    let reverse = matches!(
+        nm.axis,
+        Axis::Ancestor
+            | Axis::AncestorOrSelf
+            | Axis::AncestorOrSelfOrRoot
+            | Axis::Preceding
+            | Axis::PrecedingSibling
+    );
+    let mut acc: Sequence<N> = Vec::new();
+    for it in ctxt.context.iter() {
+        let single = ContextBuilder::from(ctxt).context(vec![it.clone()]).build();
+        let mut nodes = step(&single, nm)?;
+        // Order in axis order so position()/last() are correct regardless of
+        // the node adapter's iterator order.
+        nodes.sort_by(|a, b| {
+            let o = match (a, b) {
+                (Item::Node(x), Item::Node(y)) => x.cmp_document_order(y),
+                _ => Ordering::Equal,
+            };
+            if reverse {
+                o.reverse()
+            } else {
+                o
             }
-            Ok(acc)
-        })
+        });
+        // The XSLT current() node within these predicates is the node the step
+        // was taken from (the per-parent context node).
+        for p in predicates {
+            nodes = filter_seq(ctxt, stctxt, nodes, p, vec![it.clone()], Some(it.clone()))?;
+        }
+        acc.extend(nodes);
+    }
+    acc.sort_by(|a, b| match (a, b) {
+        (Item::Node(x), Item::Node(y)) => x.cmp_document_order(y),
+        _ => Ordering::Equal,
+    });
+    acc.dedup_by(|a, b| match (a, b) {
+        (Item::Node(x), Item::Node(y)) => x.is_same(y),
+        _ => false,
+    });
+    Ok(acc)
 }

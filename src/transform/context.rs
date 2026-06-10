@@ -60,6 +60,11 @@ pub struct Context<N: Node> {
     pub(crate) context: Sequence<N>,          // The (outer) context
     pub(crate) i: usize,                      // The index to the item that is the context item
     pub(crate) context_item: Option<Item<N>>, // The context item, which is usually context[i]. Sometimes the inner focus is different to the context, e.g. when evaluating predicates
+    // Context size for the last() function. When None it is derived from
+    // context.len(); it is set explicitly while filtering by a predicate, where
+    // the context sequence is a single focus node but last() must report the
+    // size of the node-list being filtered.
+    pub(crate) last: Option<usize>,
     pub(crate) current: Sequence<N>,
     pub(crate) current_item: Option<Item<N>>, // The "current" XPath item, which is really the context item for the invoking context. See XSLT 20.4.1.
     pub(crate) depth: usize,                  // Depth of evaluation
@@ -108,6 +113,7 @@ impl<N: Node> Context<N> {
             current: Sequence::new(),
             i: 0,
             context_item: None,
+            last: None,
             current_item: None,
             depth: 0,
             max_depth: Some(MAXDEPTH),
@@ -518,6 +524,7 @@ impl<N: Node> Context<N> {
             Transform::CurrentItem => current(self),
             Transform::Compose(v) => compose(self, stctxt, v),
             Transform::Step(nm) => step(self, nm),
+            Transform::StepPredicated(nm, preds) => step_predicated(self, stctxt, nm, preds),
             Transform::Filter(t) => filter(self, stctxt, t),
             Transform::Empty => empty(self),
             Transform::Literal(v) => literal(self, v),
@@ -637,6 +644,7 @@ impl<N: Node> From<Sequence<N>> for Context<N> {
             context_item: ci,
             context: value,
             i: 0,
+            last: None,
             current_item: None,
             current: Sequence::new(),
             depth: 0,
@@ -679,6 +687,13 @@ impl<N: Node> ContextBuilder<N> {
         }
         self.0.context = s;
         self.0.i = 0;
+        self.0.last = None;
+        self
+    }
+    /// Set the context size reported by the last() function, decoupled from
+    /// context.len(). Used while filtering by a predicate.
+    pub fn last(mut self, n: usize) -> Self {
+        self.0.last = Some(n);
         self
     }
     /// Set which item is the context item.

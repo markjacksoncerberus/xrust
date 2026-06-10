@@ -27,7 +27,7 @@ where
 }
 
 // Predicate ::= "[" expr "]"
-fn predicate<'a, N: Node + 'a, L>() -> Box<
+pub(crate) fn predicate<'a, N: Node + 'a, L>() -> Box<
     dyn Fn(
             ParseInput<'a, N>,
             &mut StaticState<L>,

@@ -22,9 +22,10 @@ pub fn position<N: Node>(ctxt: &Context<N>) -> Result<Sequence<N>, Error> {
 
 /// XPath last function.
 pub fn last<N: Node>(ctxt: &Context<N>) -> Result<Sequence<N>, Error> {
-    Ok(vec![Item::Value(Rc::new(Value::from(
-        ctxt.context.len() as i64
-    )))])
+    // The context size is decoupled from context.len() while evaluating a
+    // predicate (where the context is the single focus node).
+    let size = ctxt.last.unwrap_or(ctxt.context.len());
+    Ok(vec![Item::Value(Rc::new(Value::from(size as i64)))])
 }
 
 /// XPath count function.

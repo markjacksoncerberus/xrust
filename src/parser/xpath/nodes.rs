@@ -13,7 +13,7 @@ use crate::parser::combinators::tuple::{tuple2, tuple3};
 use crate::parser::combinators::whitespace::xpwhitespace;
 use crate::parser::xpath::expressions::postfix_expr;
 use crate::parser::xpath::nodetests::{kindtest, nodetest};
-use crate::parser::xpath::predicates::predicate_list;
+use crate::parser::xpath::predicates::predicate;
 use crate::parser::xpath::types::instanceof_expr;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::{
@@ -236,16 +236,30 @@ where
                 pair(alt2(forwardaxis(), reverseaxis()), nodetest()),
                 pair(abbreviated_axisstep(), nodetest()),
             ),
-            predicate_list(),
+            many0(predicate()),
         ),
-        |((a, n), pl)| {
-            Transform::Compose(vec![
-                Transform::Step(NodeMatch {
-                    axis: Axis::from(a),
-                    nodetest: n,
-                }),
-                pl,
-            ])
+        |((a, n), preds)| {
+            let nm = NodeMatch {
+                axis: Axis::from(a),
+                nodetest: n,
+            };
+            // With predicates, evaluate them per context node (XPath grouping);
+            // without, a plain step is enough. `predicate()` wraps each body in
+            // `Transform::Filter`; unwrap to the inner expression so the
+            // per-node filter evaluates the predicate itself, not a nested
+            // filter.
+            if preds.is_empty() {
+                Transform::Step(nm)
+            } else {
+                let exprs = preds
+                    .into_iter()
+                    .map(|p| match p {
+                        Transform::Filter(inner) => *inner,
+                        other => other,
+                    })
+                    .collect();
+                Transform::StepPredicated(nm, exprs)
+            }
         },
     ))
 }

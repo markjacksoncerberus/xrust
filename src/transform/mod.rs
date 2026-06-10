@@ -88,6 +88,12 @@ pub enum Transform<N: Node> {
     Compose(Vec<Transform<N>>),
     /// A step in a path.
     Step(NodeMatch),
+    /// An axis step together with its predicate list. Unlike `Compose([Step,
+    /// Filter…])`, the predicates are applied **per context node** (to the axis
+    /// result of each node separately), so `position()`/`last()` and numeric
+    /// predicates follow XPath semantics (`a/b[1]` selects the first `b` of each
+    /// `a`, not just the first `b` overall).
+    StepPredicated(NodeMatch, Vec<Transform<N>>),
     ///
     /// Filters the selected items.
     /// Each item in the context is evaluated against the predicate.
@@ -315,6 +321,9 @@ impl<N: Node> Debug for Transform<N> {
                 write!(f, "]")
             }
             Transform::Step(nm) => write!(f, "Step matching {}", nm),
+            Transform::StepPredicated(nm, p) => {
+                write!(f, "Step matching {} with {} predicate(s)", nm, p.len())
+            }
             Transform::Filter(_) => write!(f, "Filter"),
             Transform::Empty => write!(f, "Empty"),
             Transform::Literal(_) => write!(f, "literal value"),

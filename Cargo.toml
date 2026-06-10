@@ -16,6 +16,12 @@ repository = "https://github.com/markjacksoncerberus/xrust"
 documentation = "https://docs.rs/chadpath/"
 readme = "README.md"
 edition = "2024"
+# Keep the published crate small: the W3C XML conformance corpora (~68 MB) are
+# only needed to run xrust's own test suite, not to use the library.
+exclude = [
+    "tests/xml/",
+    "tests/conformance/",
+]
 
 # Keep the importable crate name `xrust` so the fork's own code, doctests, and
 # downstream `use xrust::...` continue to work unchanged. The published crate

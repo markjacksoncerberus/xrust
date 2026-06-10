@@ -78,6 +78,8 @@ use crate::parser::{
 use crate::item::Node;
 use crate::transform::Transform;
 use crate::xdmerror::{Error, ErrorKind};
+use std::cell::RefCell;
+use std::rc::Rc;
 use qualname::{NamespaceMap, NamespacePrefix, NamespaceUri};
 
 /// Parse an XPath expression to produce a [Transform]. The optional [Node] or [NamespaceMap] may be used to resolve XML Namespaces (The [Node] will be searched first).
@@ -197,20 +199,41 @@ where
     ))
 }
 
+type ExprParser<'a, N, L> = Rc<
+    dyn Fn(
+            ParseInput<'a, N>,
+            &mut StaticState<L>,
+        ) -> Result<(ParseInput<'a, N>, Transform<N>), ParseError>
+        + 'a,
+>;
+
 pub(crate) fn expr_wrapper<'a, N: Node + 'a, L>(
     b: bool,
 ) -> Box<
     dyn Fn(
-        ParseInput<'a, N>,
-        &mut StaticState<L>,
-    ) -> Result<(ParseInput<'a, N>, Transform<N>), ParseError>,
+            ParseInput<'a, N>,
+            &mut StaticState<L>,
+        ) -> Result<(ParseInput<'a, N>, Transform<N>), ParseError>
+        + 'a,
 >
 where
     L: FnMut(&NamespacePrefix) -> Result<NamespaceUri, ParseError> + 'a,
 {
+    // Building the (recursive) expr grammar is expensive, and it must be built
+    // lazily to avoid infinite recursion / stack overflow. Build it ONCE on
+    // first use and reuse it for every predicate/parenthesised sub-expression
+    // and every backtrack, instead of rebuilding the whole grammar each call.
+    let cache: RefCell<Option<ExprParser<'a, N, L>>> = RefCell::new(None);
     Box::new(move |input, ss| {
         if b {
-            expr::<N, L>()(input, ss)
+            let parser = {
+                let mut slot = cache.borrow_mut();
+                if slot.is_none() {
+                    *slot = Some(Rc::from(expr::<N, L>()));
+                }
+                slot.as_ref().unwrap().clone()
+            };
+            parser(input, ss)
         } else {
             noop::<N, L>()(input, ss)
         }
@@ -235,16 +258,28 @@ pub(crate) fn expr_single_wrapper<'a, N: Node + 'a, L>(
     b: bool,
 ) -> Box<
     dyn Fn(
-        ParseInput<'a, N>,
-        &mut StaticState<L>,
-    ) -> Result<(ParseInput<'a, N>, Transform<N>), ParseError>,
+            ParseInput<'a, N>,
+            &mut StaticState<L>,
+        ) -> Result<(ParseInput<'a, N>, Transform<N>), ParseError>
+        + 'a,
 >
 where
     L: FnMut(&NamespacePrefix) -> Result<NamespaceUri, ParseError> + 'a,
 {
+    // Same one-time-build memoization as expr_wrapper: function arguments and
+    // for/let/if clauses go through here, and rebuilding the grammar per call
+    // dominated parse time for function-heavy expressions.
+    let cache: RefCell<Option<ExprParser<'a, N, L>>> = RefCell::new(None);
     Box::new(move |input, ss| {
         if b {
-            expr_single::<N, L>()(input, ss)
+            let parser = {
+                let mut slot = cache.borrow_mut();
+                if slot.is_none() {
+                    *slot = Some(Rc::from(expr_single::<N, L>()));
+                }
+                slot.as_ref().unwrap().clone()
+            };
+            parser(input, ss)
         } else {
             noop::<N, L>()(input, ss)
         }

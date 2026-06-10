@@ -11,6 +11,7 @@ use crate::xmldecl::DTD;
 use qualname::{NamespaceMap, NamespacePrefix, NamespaceUri};
 use std::collections::HashSet;
 use std::fmt;
+use std::rc::Rc;
 
 pub mod avt;
 pub mod combinators;
@@ -135,13 +136,17 @@ pub struct ParserState<N: Node> {
     // Element to use to determine in-scope namespaces
     cur: Option<N>,
 
-    dtd: DTD,
+    // Reference-counted with copy-on-write: cloning ParserState (which the
+    // combinators do on every `alt` alternative) is then a refcount bump rather
+    // than a deep copy of these HashMap-heavy structures. Mutations go through
+    // Rc::make_mut, which copies only when the value is actually shared.
+    dtd: Rc<DTD>,
     // Do we add DTD specified attributes or not
     attr_defaults: bool,
 
     // The in-scope namespace declarations.
     // This will be reset when the parsing context changes
-    pub(crate) in_scope_namespaces: NamespaceMap,
+    pub(crate) in_scope_namespaces: Rc<NamespaceMap>,
 
     /*
       ID tracking:
@@ -185,10 +190,10 @@ impl<N: Node> ParserState<N> {
         ParserState {
             doc: None,
             cur: None,
-            dtd: DTD::new(),
+            dtd: Rc::new(DTD::new()),
             standalone: false,
             xmlversion: "1.0".to_string(), // Always assume 1.0
-            in_scope_namespaces: NamespaceMap::new(),
+            in_scope_namespaces: Rc::new(NamespaceMap::new()),
             id_tracking: true,
             maxentitydepth: 8,
             attr_defaults: true,
@@ -246,7 +251,7 @@ impl<N: Node> ParserStateBuilder<N> {
         self
     }
     pub fn dtd(mut self, d: DTD) -> Self {
-        self.0.dtd = d;
+        self.0.dtd = Rc::new(d);
         self
     }
     pub fn attribute_defaults(mut self, a: bool) -> Self {
@@ -254,7 +259,7 @@ impl<N: Node> ParserStateBuilder<N> {
         self
     }
     pub fn in_scope_namespaces(mut self, nsm: NamespaceMap) -> Self {
-        self.0.in_scope_namespaces = nsm;
+        self.0.in_scope_namespaces = Rc::new(nsm);
         self
     }
     pub fn id_tracking(mut self, a: bool) -> Self {

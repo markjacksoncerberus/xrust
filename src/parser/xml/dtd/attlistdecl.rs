@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use crate::item::Node;
 use crate::parser::combinators::alt::{alt2, alt3, alt9};
 use crate::parser::combinators::delimited::delimited;
@@ -206,7 +207,7 @@ where
             if !atts.is_empty() {
                 match state2.dtd.attlists.get(&n) {
                     None => {
-                        state2.dtd.attlists.insert(n, atts);
+                        Rc::make_mut(&mut state2.dtd).attlists.insert(n, atts);
                     }
                     Some(al) => {
                         let mut newal = al.clone();
@@ -228,7 +229,7 @@ where
                                 }
                             }
                         }
-                        state2.dtd.attlists.insert(n, newal);
+                        Rc::make_mut(&mut state2.dtd).attlists.insert(n, newal);
                     }
                 }
             }

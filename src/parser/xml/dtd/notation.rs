@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use crate::item::Node;
 use crate::parser::combinators::alt::{alt2, alt3};
 use crate::parser::combinators::delimited::delimited;
@@ -123,8 +124,7 @@ where
     )(input, ss)
     {
         Ok(((input2, mut state2), (_, _, (p, l), _, s, _, _))) => {
-            state2
-                .dtd
+            Rc::make_mut(&mut state2.dtd)
                 .notations
                 .insert(l.clone(), DTDDecl::Notation((p, l), s));
             Ok(((input2, state2), ()))

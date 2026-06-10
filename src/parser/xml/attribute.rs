@@ -63,7 +63,7 @@ where
                             String::from("namespace prefix \"xmlns\" not allowed"),
                         )),
                         (Some("xmlns"), "xml", "http://www.w3.org/XML/1998/namespace") => {
-                            state1.in_scope_namespaces.push(
+                            Rc::make_mut(&mut state1.in_scope_namespaces).push(
                                 NamespaceDeclaration::new(
                                     Some(NamespacePrefix::try_from("xml").unwrap()),
                                     NamespaceUri::try_from("http://www.w3.org/XML/1998/namespace")
@@ -112,7 +112,7 @@ where
                                     ))
                                 })?);
                                 if let Some(nsuri) = state1.in_scope_namespaces.namespace_uri(&prefix) {
-                                    if state1.in_scope_namespaces.pop_prefix(&prefix).is_none() {
+                                    if Rc::make_mut(&mut state1.in_scope_namespaces).pop_prefix(&prefix).is_none() {
                                         return Err(ParseError::NotWellFormed(String::from("unable to descope namespace: not found in in-scope namespaces")))
                                     }
                                     nsd_vec.push(
@@ -145,7 +145,7 @@ where
                                     .map_err(|_| ParseError::MissingNameSpace)?,
                                 );
                             } else {
-                                state1.in_scope_namespaces.push(
+                                Rc::make_mut(&mut state1.in_scope_namespaces).push(
                                     NamespaceDeclaration::new(
                                         Some(NamespacePrefix::try_from(p).map_err(|_| {
                                             ParseError::NotWellFormed(String::from(
@@ -187,7 +187,7 @@ where
                                     .map_err(|_| ParseError::MissingNameSpace)?,
                                 );
                             } else {
-                                state1.in_scope_namespaces.push(
+                                Rc::make_mut(&mut state1.in_scope_namespaces).push(
                                     NamespaceDeclaration::new(
                                         None,
                                         NamespaceUri::try_from(v).unwrap(),

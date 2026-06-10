@@ -12,6 +12,7 @@ mod pedecl;
 pub(crate) mod pereference;
 mod textdecl;
 
+use std::rc::Rc;
 use crate::item::Node;
 use crate::parser::combinators::delimited::delimited;
 use crate::parser::combinators::opt::opt;
@@ -56,9 +57,10 @@ where
                 let mut nameparts = n.split(':');
                 let prefix = nameparts.next().unwrap();
                 let local_part = nameparts.next().unwrap();
-                state1.dtd.name = Some((Some(String::from(prefix)), String::from(local_part)));
+                Rc::make_mut(&mut state1.dtd).name =
+                    Some((Some(String::from(prefix)), String::from(local_part)));
             } else {
-                state1.dtd.name = Some((None, n));
+                Rc::make_mut(&mut state1.dtd).name = Some((None, n));
             }
             /*  We're doing nothing with the below, just evaluating the external entity to check its well formed */
             let exdtd = state1.ext_entities_to_parse.clone().pop();
@@ -75,7 +77,7 @@ where
             }
             /*
             Same again, with Internal subset */
-            for (k, (v, _)) in state1.clone().dtd.generalentities {
+            for (k, (v, _)) in state1.dtd.generalentities.clone() {
                 if v != *"<" {
                     /* A single < on its own will generate an error if used, but doesn't actually generate a not well formed error! */
                     let i = ["&".to_string(), k, ";".to_string()].join("");
@@ -87,13 +89,17 @@ where
                 }
             }
 
+            // Build the patterns into a local vector first: `Rc::make_mut`
+            // borrows the whole DTD, which would conflict with iterating
+            // `state1.dtd.elements`/`attlists` here.
+            let mut new_patterns: Vec<((Option<String>, String), DTDPattern)> = Vec::new();
             for (elname, eldecl) in &state1.dtd.elements {
                 match &state1.dtd.attlists.get(elname) {
                     None => {
-                        state1.dtd.patterns.insert(
+                        new_patterns.push((
                             elname.clone(),
                             DTDPattern::Element(elname.clone(), Box::new(eldecl.clone())),
-                        );
+                        ));
                     }
                     Some(attlist) => {
                         let mut attpat = None;
@@ -144,7 +150,7 @@ where
                                 }
                             }
                         }
-                        state1.dtd.patterns.insert(
+                        new_patterns.push((
                             elname.clone(),
                             DTDPattern::Element(
                                 elname.clone(),
@@ -153,9 +159,13 @@ where
                                     Box::new(attpat.unwrap()),
                                 )),
                             ),
-                        );
+                        ));
                     }
                 }
+            }
+            let dtd = Rc::make_mut(&mut state1.dtd);
+            for (k, v) in new_patterns {
+                dtd.patterns.insert(k, v);
             }
             Ok(((input1, state1), ()))
         }

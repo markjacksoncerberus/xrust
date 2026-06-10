@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use crate::item::Node;
 use crate::parser::combinators::alt::{alt3, alt4};
 use crate::parser::combinators::delimited::delimited;
@@ -113,12 +114,11 @@ where
                     let replaceable = state2.currentlyexternal;
                     match state2.dtd.generalentities.get(l.as_str()) {
                         None => {
-                            state2.dtd.generalentities.insert(l, (res, replaceable));
+                            Rc::make_mut(&mut state2.dtd).generalentities.insert(l, (res, replaceable));
                             Ok(((input2, state2), ()))
                         }
                         Some((_, true)) => {
-                            state2
-                                .dtd
+                            Rc::make_mut(&mut state2.dtd)
                                 .generalentities
                                 .entry(l)
                                 .or_insert((res, replaceable));

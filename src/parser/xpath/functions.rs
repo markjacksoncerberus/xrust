@@ -20,7 +20,6 @@ use crate::transform::callable::ActualParameters;
 use crate::transform::{NameTest, NodeTest, Transform, in_scope_namespaces};
 use crate::xdmerror::ErrorKind;
 use qualname::{NamespacePrefix, NamespaceUri};
-use std::rc::Rc;
 
 // ArrowExpr ::= UnaryExpr ( '=>' ArrowFunctionSpecifier ArgumentList)*
 pub(crate) fn arrow_expr<'a, N: Node + 'a, L>() -> Box<
@@ -629,7 +628,7 @@ where
                     _ => Transform::Invoke(
                         ntqn.clone(),
                         ActualParameters::Positional(a),
-                        Rc::new(state.in_scope_namespaces.clone()),
+                        state.in_scope_namespaces.clone(),
                     ),
                 }
             }

@@ -162,7 +162,7 @@ where
                 }
 
                 if !state1.dtd.patterns.is_empty() {
-                    let _ = d.set_dtd(state1.dtd.clone());
+                    let _ = d.set_dtd((*state1.dtd).clone());
                 };
 
                 Ok((

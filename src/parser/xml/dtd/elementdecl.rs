@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use crate::item::Node;
 use crate::parser::combinators::tag::tag;
 use crate::parser::combinators::tuple::tuple7;
@@ -24,7 +25,7 @@ where
     )(input, ss)
     {
         Ok(((input2, mut state2), (_, _, n, _, s, _, _))) => {
-            state2.dtd.elements.insert(n, s);
+            Rc::make_mut(&mut state2.dtd).elements.insert(n, s);
             Ok(((input2, state2), ()))
         }
         Err(err) => Err(err),

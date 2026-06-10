@@ -211,6 +211,31 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 
 [[package]]
+name = "chadpath"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "criterion",
+ "earleybird",
+ "encoding_rs",
+ "encoding_rs_io",
+ "english-numbers",
+ "formato",
+ "hexdump",
+ "indextree",
+ "italian_numbers",
+ "lexers",
+ "pkg-version",
+ "qualname",
+ "regex",
+ "rust_decimal",
+ "rust_decimal_macros",
+ "stacksafe",
+ "unicode-segmentation",
+ "url",
+]
+
+[[package]]
 name = "chrono"
 version = "0.4.42"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1702,31 +1727,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "05f360fc0b24296329c78fda852a1e9ae82de9cf7b27dae4b7f62f118f77b9ed"
 dependencies = [
  "tap",
-]
-
-[[package]]
-name = "xrust"
-version = "2.1.0"
-dependencies = [
- "chrono",
- "criterion",
- "earleybird",
- "encoding_rs",
- "encoding_rs_io",
- "english-numbers",
- "formato",
- "hexdump",
- "indextree",
- "italian_numbers",
- "lexers",
- "pkg-version",
- "qualname",
- "regex",
- "rust_decimal",
- "rust_decimal_macros",
- "stacksafe",
- "unicode-segmentation",
- "url",
 ]
 
 [[package]]

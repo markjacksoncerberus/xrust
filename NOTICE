@@ -1,0 +1,20 @@
+chadpath
+========
+
+This crate (`chadpath`) is a fork of `xrust` (https://gitlab.gnome.org/World/Rust/markup-rs/xrust),
+copyright the original xrust authors (Steve Ball, Daniel Murphy), licensed under
+the Apache License, Version 2.0. The original license is retained in the LICENSE
+file and applies to this derived work.
+
+Modifications in this fork (relative to xrust 2.1.0):
+
+- XPath positional-predicate semantics fixed to be per-context-node, so numeric
+  predicates (`[N]`), `[last()]`, multi-parent grouping (`//a/b[1]`), and
+  positional predicates on the following-sibling / preceding-sibling / etc. axes
+  evaluate per XPath 1.0 (src/transform/navigate.rs, context.rs, mod.rs,
+  functions.rs; src/parser/xpath/nodes.rs, predicates.rs).
+- XPath parser performance: the recursive grammar build is memoized
+  (src/parser/xpath/mod.rs) and the parser state is reference-counted with
+  copy-on-write (src/parser/mod.rs and the XML DTD parser).
+
+See the git history for details. The importable library name remains `xrust`.

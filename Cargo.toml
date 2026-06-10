@@ -1,18 +1,28 @@
 [package]
-name = "xrust"
-version = "2.1.0"
-keywords = ["xml", "json", "xpath", "xslt", "tree"]
+name = "chadpath"
+version = "0.1.0"
+keywords = ["xml", "xpath", "xslt", "html", "scraping"]
 categories = ["parser-implementations"]
-description = "Support for XPath and XSLT"
+description = "XPath 1.0 / XSLT engine — a fork of xrust (Apache-2.0) with XPath positional-predicate correctness fixes and parser performance improvements. Used by chadselect."
 authors = [
+    # Original xrust authors (Apache-2.0):
     "Steve Ball <Steve.Ball@explain.com.au>",
     "Daniel Murphy <daniel@devasta.ie>",
+    # chadpath fork maintainers:
+    "Cerberus <markjacksoncbt@gmail.com>",
 ]
 license = "Apache-2.0"
-repository = "https://gitlab.gnome.org/World/Rust/markup-rs/xrust.git"
-documentation = "https://docs.rs/xrust/"
+repository = "https://github.com/markjacksoncerberus/xrust"
+documentation = "https://docs.rs/chadpath/"
 readme = "README.md"
 edition = "2024"
+
+# Keep the importable crate name `xrust` so the fork's own code, doctests, and
+# downstream `use xrust::...` continue to work unchanged. The published crate
+# (on crates.io) is `chadpath`; depend on it as
+#   xrust = { package = "chadpath", version = "0.1" }
+[lib]
+name = "xrust"
 
 [features]
 # The xslt feature enables XSLT support

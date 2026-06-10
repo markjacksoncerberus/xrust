@@ -1,13 +1,13 @@
 // Regression: XPath positional predicates over the smite tree.
 // Guards the per-context-node predicate evaluation fix (numeric predicates,
 // last(), per-parent grouping, and positional predicates on all axes).
-use xrust::item::{Item, Node, Sequence};
-use xrust::parser::xml::parse as xmlparse;
-use xrust::parser::xpath::parse;
-use xrust::parser::ParseError;
-use xrust::transform::context::{ContextBuilder, StaticContextBuilder};
-use xrust::trees::smite::RNode;
-use xrust::xdmerror::{Error, ErrorKind};
+use chadpath::item::{Item, Node, Sequence};
+use chadpath::parser::xml::parse as xmlparse;
+use chadpath::parser::xpath::parse;
+use chadpath::parser::ParseError;
+use chadpath::transform::context::{ContextBuilder, StaticContextBuilder};
+use chadpath::trees::smite::RNode;
+use chadpath::xdmerror::{Error, ErrorKind};
 
 fn run(xml: &str, xp: &str) -> String {
     let doc = RNode::new_document();

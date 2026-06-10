@@ -1,8 +1,8 @@
 use qualname::QName;
-use xrust::item::{Node, NodeType};
-use xrust::item_node_tests;
-use xrust::item_value_tests;
-use xrust::trees::smite::RNode;
+use chadpath::item::{Node, NodeType};
+use chadpath::item_node_tests;
+use chadpath::item_value_tests;
+use chadpath::trees::smite::RNode;
 
 mod node;
 mod smite;

@@ -1,6 +1,6 @@
 // Transform tests
 
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 mod smite;
 mod transformgeneric;

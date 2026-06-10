@@ -8,14 +8,14 @@ NB. This module, by default, does not resolve include or import statements. See 
 
 ```rust
 use std::rc::Rc;
-use xrust::xdmerror::{Error, ErrorKind};
-use xrust::item::{Item, Node, NodeType, Sequence, SequenceTrait};
-use xrust::transform::Transform;
-use xrust::transform::context::{StaticContext, StaticContextBuilder};
-use xrust::trees::smite::RNode;
-use xrust::parser::ParseError;
-use xrust::parser::xml::parse;
-use xrust::xslt::from_document;
+use chadpath::xdmerror::{Error, ErrorKind};
+use chadpath::item::{Item, Node, NodeType, Sequence, SequenceTrait};
+use chadpath::transform::Transform;
+use chadpath::transform::context::{StaticContext, StaticContextBuilder};
+use chadpath::trees::smite::RNode;
+use chadpath::parser::ParseError;
+use chadpath::parser::xml::parse;
+use chadpath::xslt::from_document;
 
 // A little helper function to parse an XML document
 fn make_from_str(s: &str) -> Result<RNode, Error> {

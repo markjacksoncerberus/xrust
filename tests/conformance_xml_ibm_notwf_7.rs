@@ -18,13 +18,13 @@ This file is kept for historical completeness more than anything.
 #[cfg(all(test, feature = "test-conformance-xml"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::item::Node;
+use chadpath::item::Node;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::parser::{ParseError, ParserStateBuilder, StaticStateBuilder, xml};
+use chadpath::parser::{ParseError, ParserStateBuilder, StaticStateBuilder, xml};
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::{Error, ErrorKind};
+use chadpath::{Error, ErrorKind};
 
 
 #[cfg(all(test, feature = "test-conformance-xml"))]

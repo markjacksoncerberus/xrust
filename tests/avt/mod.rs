@@ -1,13 +1,13 @@
 //! Tests for avt module defined generically
 
-use xrust::{ErrorKind, Sequence, SequenceTrait, Transform};
+use chadpath::{ErrorKind, Sequence, SequenceTrait, Transform};
 
 use std::rc::Rc;
-use xrust::item::{Item, Node};
-use xrust::parser::avt::parse;
-use xrust::transform::context::{Context, StaticContextBuilder};
-use xrust::value::Value;
-use xrust::xdmerror::Error;
+use chadpath::item::{Item, Node};
+use chadpath::parser::avt::parse;
+use chadpath::transform::context::{Context, StaticContextBuilder};
+use chadpath::value::Value;
+use chadpath::xdmerror::Error;
 
 fn test_rig<N: Node>(x: &Transform<N>) -> Result<Sequence<N>, Error> {
     let mut stctxt = StaticContextBuilder::new()

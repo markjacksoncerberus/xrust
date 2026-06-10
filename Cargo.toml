@@ -1,6 +1,6 @@
 [package]
 name = "chadpath"
-version = "0.1.0"
+version = "0.2.0"
 keywords = ["xml", "xpath", "xslt", "html", "scraping"]
 categories = ["parser-implementations"]
 description = "XPath 1.0 / XSLT engine — a fork of xrust (Apache-2.0) with XPath positional-predicate correctness fixes and parser performance improvements. Used by chadselect."
@@ -22,13 +22,6 @@ exclude = [
     "tests/xml/",
     "tests/conformance/",
 ]
-
-# Keep the importable crate name `xrust` so the fork's own code, doctests, and
-# downstream `use xrust::...` continue to work unchanged. The published crate
-# (on crates.io) is `chadpath`; depend on it as
-#   xrust = { package = "chadpath", version = "0.1" }
-[lib]
-name = "xrust"
 
 [features]
 # The xslt feature enables XSLT support

@@ -1,16 +1,16 @@
 use std::collections::HashMap;
-use xrust::item::{Node, NodeType};
-use xrust::item_node_tests;
-use xrust::item_value_tests;
-use xrust::pattern_tests;
-use xrust::qname::QualifiedName;
-use xrust::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
-use xrust::transform_tests;
-use xrust::trees::intmuttree::Document;
-use xrust::trees::intmuttree::{NodeBuilder, RNode};
-use xrust::xdmerror::{Error, ErrorKind};
-use xrust::xpath_tests;
-use xrust::xslt_tests;
+use chadpath::item::{Node, NodeType};
+use chadpath::item_node_tests;
+use chadpath::item_value_tests;
+use chadpath::pattern_tests;
+use chadpath::qname::QualifiedName;
+use chadpath::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
+use chadpath::transform_tests;
+use chadpath::trees::intmuttree::Document;
+use chadpath::trees::intmuttree::{NodeBuilder, RNode};
+use chadpath::xdmerror::{Error, ErrorKind};
+use chadpath::xpath_tests;
+use chadpath::xslt_tests;
 
 type F = Box<dyn FnMut(&str) -> Result<(), Error>>;
 

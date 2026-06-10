@@ -331,15 +331,15 @@ impl<N: Node> Context<N> {
     /// ```rust
     /// use std::rc::Rc;
     /// use url::Url;
-    /// use xrust::ErrorKind;
-    /// use xrust::xdmerror::Error;
-    /// use xrust::item::{Item, Sequence, SequenceTrait, Node, NodeType};
-    /// use xrust::transform::Transform;
-    /// use xrust::transform::context::{Context, StaticContext, StaticContextBuilder};
-    /// use xrust::trees::smite::RNode;
-    /// use xrust::parser::ParseError;
-    /// use xrust::parser::xml::parse;
-    /// use xrust::xslt::from_document;
+    /// use chadpath::ErrorKind;
+    /// use chadpath::xdmerror::Error;
+    /// use chadpath::item::{Item, Sequence, SequenceTrait, Node, NodeType};
+    /// use chadpath::transform::Transform;
+    /// use chadpath::transform::context::{Context, StaticContext, StaticContextBuilder};
+    /// use chadpath::trees::smite::RNode;
+    /// use chadpath::parser::ParseError;
+    /// use chadpath::parser::xml::parse;
+    /// use chadpath::xslt::from_document;
     ///
     /// // A little helper function to parse a string to a Document Node
     /// fn make_from_str(s: &str) -> RNode {
@@ -477,13 +477,13 @@ impl<N: Node> Context<N> {
     /// ```rust
     /// use std::rc::Rc;
     /// use url::Url;
-    /// use xrust::xdmerror::{Error, ErrorKind};
-    /// use xrust::item::{Item, Sequence, SequenceTrait, Node, NodeType};
-    /// use xrust::transform::{Transform, NodeMatch, NodeTest, KindTest,  Axis};
-    /// use xrust::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
-    /// use xrust::trees::smite::RNode;
-    /// use xrust::parser::ParseError;
-    /// use xrust::parser::xml::parse;
+    /// use chadpath::xdmerror::{Error, ErrorKind};
+    /// use chadpath::item::{Item, Sequence, SequenceTrait, Node, NodeType};
+    /// use chadpath::transform::{Transform, NodeMatch, NodeTest, KindTest,  Axis};
+    /// use chadpath::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
+    /// use chadpath::trees::smite::RNode;
+    /// use chadpath::parser::ParseError;
+    /// use chadpath::parser::xml::parse;
     ///
     /// // A little helper function to parse a string to a Document Node
     /// fn make_from_str(s: &str) -> RNode {
@@ -844,12 +844,12 @@ where
 /// ```rust
 /// use std::rc::Rc;
 /// use qualname::{QName, NcName};
-/// use xrust::{Error, ErrorKind};
-/// use xrust::value::Value;
-/// use xrust::item::{Item, Sequence, SequenceTrait, Node, NodeType};
-/// use xrust::trees::smite::RNode;
-/// use xrust::transform::Transform;
-/// use xrust::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
+/// use chadpath::{Error, ErrorKind};
+/// use chadpath::value::Value;
+/// use chadpath::item::{Item, Sequence, SequenceTrait, Node, NodeType};
+/// use chadpath::trees::smite::RNode;
+/// use chadpath::transform::Transform;
+/// use chadpath::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
 ///
 /// let mut message = String::from("no message received");
 /// let xform = Transform::LiteralElement(

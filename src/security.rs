@@ -7,12 +7,12 @@
 //!
 //! ```rust
 //! # use std::rc::Rc;
-//! use xrust::security::{SecurityResult, Policy, Feature};
-//! use xrust::{Error, ErrorKind, Node};
-//! use xrust::item::Item;
-//! use xrust::value::Value;
-//! use xrust::transform::Transform;
-//! use xrust::transform::callable::ActualParameters;
+//! use chadpath::security::{SecurityResult, Policy, Feature};
+//! use chadpath::{Error, ErrorKind, Node};
+//! use chadpath::item::Item;
+//! use chadpath::value::Value;
+//! use chadpath::transform::Transform;
+//! use chadpath::transform::callable::ActualParameters;
 //! use qualname::{QName, NcName};
 //!
 //! fn get_feature<N: Node>(policy: &Policy<N>) -> Result<Option<String>, Error> {
@@ -43,8 +43,8 @@
 //! In this example, a security policy is created with the feature set to "permitted with no limits".
 //!
 //! ```rust
-//! use xrust::security::{Feature, Policy};
-//! use xrust::trees::smite::RNode;
+//! use chadpath::security::{Feature, Policy};
+//! use chadpath::trees::smite::RNode;
 //! use qualname::{QName, NcName};
 //!
 //! let mut policy: Policy<RNode> = Policy::new(QName::from_local_name(

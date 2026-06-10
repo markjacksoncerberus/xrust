@@ -8,11 +8,11 @@ use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
 use std::hint::black_box;
 
 use qualname::{NamespaceUri, NcName, QName};
-use xrust::item::Node;
-use xrust::parser::ParseError;
-use xrust::parser::xml::parse;
-use xrust::trees::smite::RNode;
-use xrust::value::Value;
+use chadpath::item::Node;
+use chadpath::parser::ParseError;
+use chadpath::parser::xml::parse;
+use chadpath::trees::smite::RNode;
+use chadpath::value::Value;
 
 static NSURI: LazyLock<Option<NamespaceUri>> =
     LazyLock::new(|| Some(NamespaceUri::try_from("http://www.example.com/namespace").unwrap()));

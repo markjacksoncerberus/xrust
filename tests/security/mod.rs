@@ -2,17 +2,17 @@
 
 use qualname::{NamespaceUri, NcName, QName};
 use std::rc::Rc;
-use xrust::ErrorKind;
-use xrust::item::{Item, Node};
-use xrust::pattern::Pattern;
-use xrust::security::{Feature, Policy};
-use xrust::transform::callable::ActualParameters;
-use xrust::transform::context::{ContextBuilder, StaticContextBuilder};
-use xrust::transform::template::Template;
-use xrust::transform::{Axis, KindTest, NodeMatch, NodeTest, Transform};
-use xrust::value::Value;
-use xrust::xdmerror::Error;
-use xrust::xslt::from_document;
+use chadpath::ErrorKind;
+use chadpath::item::{Item, Node};
+use chadpath::pattern::Pattern;
+use chadpath::security::{Feature, Policy};
+use chadpath::transform::callable::ActualParameters;
+use chadpath::transform::context::{ContextBuilder, StaticContextBuilder};
+use chadpath::transform::template::Template;
+use chadpath::transform::{Axis, KindTest, NodeMatch, NodeTest, Transform};
+use chadpath::value::Value;
+use chadpath::xdmerror::Error;
+use chadpath::xslt::from_document;
 
 // Max Depth feature not set - will use default.
 // Small number of evaluations (1), should pass.
@@ -24,13 +24,13 @@ where
         .message(|_| Ok(()))
         .fetcher(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
         .parser(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
@@ -97,13 +97,13 @@ where
         .message(|_| Ok(()))
         .fetcher(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
         .parser(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
@@ -187,13 +187,13 @@ where
         .message(|_| Ok(()))
         .fetcher(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
         .parser(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
@@ -292,13 +292,13 @@ where
         .message(|_| Ok(()))
         .fetcher(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
         .parser(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
@@ -400,13 +400,13 @@ where
         .message(|_| Ok(()))
         .fetcher(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
         .parser(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
@@ -543,13 +543,13 @@ where
         })
         .fetcher(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })
         .parser(|_| {
             Err(Error::new(
-                xrust::ErrorKind::NotImplemented,
+                chadpath::ErrorKind::NotImplemented,
                 "not implemented",
             ))
         })

@@ -3,11 +3,11 @@ use qualname::{NamespaceMap, NamespacePrefix};
 #[cfg(all(test, feature = "test-conformance-xmlid"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xmlid"))]
-use xrust::item::{Node, NodeType};
+use chadpath::item::{Node, NodeType};
 #[cfg(all(test, feature = "test-conformance-xmlid"))]
-use xrust::parser::{ParseError, xml};
+use chadpath::parser::{ParseError, xml};
 #[cfg(all(test, feature = "test-conformance-xmlid"))]
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 /*
 

@@ -1,9 +1,9 @@
 use std::fs;
 use std::rc::Rc;
-//use xrust::item::Node;
-use xrust::parser::xml;
-use xrust::trees::smite::{Node as SmiteNode};
-use xrust::validators::relaxng::validate_relaxng;
+//use chadpath::item::Node;
+use chadpath::parser::xml;
+use chadpath::trees::smite::{Node as SmiteNode};
+use chadpath::validators::relaxng::validate_relaxng;
 
 
 #[test]

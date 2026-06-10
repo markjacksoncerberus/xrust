@@ -8,12 +8,12 @@ The following transformation implements the expression "1 + 1". The result is (h
 
 ```rust
 # use std::rc::Rc;
-# use xrust::xdmerror::{Error, ErrorKind};
-# use xrust::trees::smite::{RNode, Node as SmiteNode};
-use xrust::value::Value;
-use xrust::item::{Item, Node, Sequence, SequenceTrait};
-use xrust::transform::{Transform, ArithmeticOperand, ArithmeticOperator};
-use xrust::transform::context::{Context, StaticContext, StaticContextBuilder};
+# use chadpath::xdmerror::{Error, ErrorKind};
+# use chadpath::trees::smite::{RNode, Node as SmiteNode};
+use chadpath::value::Value;
+use chadpath::item::{Item, Node, Sequence, SequenceTrait};
+use chadpath::transform::{Transform, ArithmeticOperand, ArithmeticOperator};
+use chadpath::transform::context::{Context, StaticContext, StaticContextBuilder};
 
 let xform = Transform::Arithmetic(vec![
         ArithmeticOperand::new(

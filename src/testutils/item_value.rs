@@ -2,8 +2,8 @@
 macro_rules! item_value_tests (
     ( $x:ty ) => {
 	use std::rc::Rc;
-	use xrust::value::Value;
-	use xrust::item::{Sequence, SequenceTrait, Item};
+	use chadpath::value::Value;
+	use chadpath::item::{Sequence, SequenceTrait, Item};
 
 	#[test]
 	fn item_value_string_empty_to_bool() {

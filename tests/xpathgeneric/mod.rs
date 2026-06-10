@@ -4,14 +4,14 @@ use pkg_version::{pkg_version_major, pkg_version_minor, pkg_version_patch};
 use qualname::{NamespaceDeclaration, NamespaceMap, NamespacePrefix, NamespaceUri, NcName, QName};
 use std::ops::Deref;
 use std::rc::Rc;
-use xrust::item::{Item, Node, NodeType, Sequence, SequenceTrait};
-use xrust::parser::xpath::parse;
-use xrust::pattern::Pattern;
-use xrust::transform::callable::ActualParameters;
-use xrust::transform::context::{Context, ContextBuilder, StaticContextBuilder};
-use xrust::transform::{Axis, KindTest, NodeMatch, NodeTest, Transform};
-use xrust::value::{Value, ValueData};
-use xrust::xdmerror::{Error, ErrorKind};
+use chadpath::item::{Item, Node, NodeType, Sequence, SequenceTrait};
+use chadpath::parser::xpath::parse;
+use chadpath::pattern::Pattern;
+use chadpath::transform::callable::ActualParameters;
+use chadpath::transform::context::{Context, ContextBuilder, StaticContextBuilder};
+use chadpath::transform::{Axis, KindTest, NodeMatch, NodeTest, Transform};
+use chadpath::value::{Value, ValueData};
+use chadpath::xdmerror::{Error, ErrorKind};
 
 fn no_src_no_result<N: Node>(e: impl AsRef<str>) -> Result<Sequence<N>, Error> {
     let mut stctxt = StaticContextBuilder::new()

@@ -1,4 +1,4 @@
-//! # xrust::forest
+//! # chadpath::forest
 //!
 //! A forest is a collection of [Tree]s. A [Tree] is a collection of [Node]s. A [Node] is an index into the [Tree].
 //!

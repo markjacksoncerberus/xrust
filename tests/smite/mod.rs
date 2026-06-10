@@ -3,12 +3,12 @@
 use std::rc::Rc;
 
 use qualname::{NamespaceMap, QName};
-use xrust::item::{Item, Node};
-use xrust::parser::ParseError;
-use xrust::parser::xml::{parse as xmlparse, parse_with_ns};
-use xrust::trees::smite::RNode;
-use xrust::value::Value;
-use xrust::xdmerror::Error;
+use chadpath::item::{Item, Node};
+use chadpath::parser::ParseError;
+use chadpath::parser::xml::{parse as xmlparse, parse_with_ns};
+use chadpath::trees::smite::RNode;
+use chadpath::value::Value;
+use chadpath::xdmerror::Error;
 
 #[allow(dead_code)]
 pub fn make_empty_doc() -> RNode {

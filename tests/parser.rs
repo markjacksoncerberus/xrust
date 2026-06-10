@@ -5,10 +5,10 @@ University of Edinburgh XML 1.0 4th edition errata test suite.
 */
 use qualname::NamespacePrefix;
 use std::fs;
-use xrust::item::{Node, NodeType};
-use xrust::parser::xml;
-use xrust::parser::{ParseError, ParserStateBuilder, StaticStateBuilder};
-use xrust::trees::smite::RNode;
+use chadpath::item::{Node, NodeType};
+use chadpath::parser::xml;
+use chadpath::parser::{ParseError, ParserStateBuilder, StaticStateBuilder};
+use chadpath::trees::smite::RNode;
 
 #[test]
 fn parser_config_namespace_nodes_1() {

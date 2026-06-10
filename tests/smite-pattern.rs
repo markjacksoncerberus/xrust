@@ -1,6 +1,6 @@
 // Smite tests for pattern module
 
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 mod patterngeneric;
 mod smite;

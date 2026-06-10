@@ -1,8 +1,8 @@
 use std::fs;
-use xrust::Node;
-use xrust::parser::ParseError;
-use xrust::parser::xml;
-use xrust::trees::smite::RNode;
+use chadpath::Node;
+use chadpath::parser::ParseError;
+use chadpath::parser::xml;
+use chadpath::trees::smite::RNode;
 
 #[test]
 fn serializer_issue_98() {

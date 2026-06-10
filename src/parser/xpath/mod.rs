@@ -3,8 +3,8 @@
 An XPath expression parser using the xrust parser combinator that produces a xrust transformation.
 
 ```rust
-use xrust::parser::xpath::parse;
-# use xrust::item::Node;
+use chadpath::parser::xpath::parse;
+# use chadpath::item::Node;
 # fn do_parse<N: Node>() {
 let t = parse::<N>("/child::A/child::B/child::C", None, None).expect("unable to parse XPath expression");
 # }
@@ -16,13 +16,13 @@ To evaluate the transformation we need a Context with a source document as its c
 
 ```rust
 # use std::rc::Rc;
-# use xrust::xdmerror::{Error, ErrorKind};
-use xrust::item::{Sequence, SequenceTrait, Item, Node, NodeType};
-use xrust::trees::smite::RNode;
-use xrust::parser::ParseError;
-use xrust::parser::xml::parse as xmlparse;
-use xrust::parser::xpath::parse;
-use xrust::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
+# use chadpath::xdmerror::{Error, ErrorKind};
+use chadpath::item::{Sequence, SequenceTrait, Item, Node, NodeType};
+use chadpath::trees::smite::RNode;
+use chadpath::parser::ParseError;
+use chadpath::parser::xml::parse as xmlparse;
+use chadpath::parser::xpath::parse;
+use chadpath::transform::context::{Context, ContextBuilder, StaticContext, StaticContextBuilder};
 
 let t = parse("/child::A/child::B/child::C", None, None)
     .expect("unable to parse XPath expression");

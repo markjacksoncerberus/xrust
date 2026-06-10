@@ -7,13 +7,13 @@ use std::fs::File;
 use std::io::Read;
 use std::path::Path;
 
-use xrust::item::{Item, Node, SequenceTrait};
-use xrust::parser::ParseError;
-use xrust::parser::xml::parse as xmlparse;
-use xrust::parser::xpath::parse;
-use xrust::transform::context::{ContextBuilder, StaticContextBuilder};
-use xrust::trees::smite::RNode;
-use xrust::xdmerror::{Error, ErrorKind};
+use chadpath::item::{Item, Node, SequenceTrait};
+use chadpath::parser::ParseError;
+use chadpath::parser::xml::parse as xmlparse;
+use chadpath::parser::xpath::parse;
+use chadpath::transform::context::{ContextBuilder, StaticContextBuilder};
+use chadpath::trees::smite::RNode;
+use chadpath::xdmerror::{Error, ErrorKind};
 
 fn main() {
     let args: Vec<String> = env::args().collect();

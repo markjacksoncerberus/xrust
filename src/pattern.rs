@@ -7,8 +7,8 @@ Patterns are defined in XSLT 3.0 5.5.2.
 A string can be compiled as [Pattern] by using the ```try_from``` associated function.
 
 ```rust
-# use xrust::item::Node;
-use xrust::pattern::Pattern;
+# use chadpath::item::Node;
+use chadpath::pattern::Pattern;
 
 # fn compile<N: Node>() {
 let p: Pattern<N> = Pattern::try_from("child::foobar")
@@ -21,13 +21,13 @@ An [Item] can then be tested to see if it matches the [Pattern]. To do that, it 
 
 ```rust
 # use std::rc::Rc;
-# use xrust::ErrorKind;
-# use xrust::xdmerror::Error;
-# use xrust::item::{Item, NodeType};
-# use xrust::pattern::Pattern;
-# use xrust::transform::context::{Context, StaticContext, StaticContextBuilder};
-# use xrust::Node;
-# use xrust::trees::smite::RNode;
+# use chadpath::ErrorKind;
+# use chadpath::xdmerror::Error;
+# use chadpath::item::{Item, NodeType};
+# use chadpath::pattern::Pattern;
+# use chadpath::transform::context::{Context, StaticContext, StaticContextBuilder};
+# use chadpath::Node;
+# use chadpath::trees::smite::RNode;
 # type F = Box<dyn FnMut(&str) -> Result<(), Error>>;
 let p = Pattern::try_from("/").expect("unable to compile pattern");
 let n = Item::Node(RNode::new_document());
@@ -45,12 +45,12 @@ assert_eq!(p.matches(&Context::new(), &mut static_context, &n), true)
 
 ```rust
 # use std::rc::Rc;
-# use xrust::xdmerror::{Error, ErrorKind};
-# use xrust::item::{Item, NodeType};
-# use xrust::pattern::Pattern;
-# use xrust::transform::context::{Context, StaticContext, StaticContextBuilder};
-# use xrust::Node;
-# use xrust::trees::smite::RNode;
+# use chadpath::xdmerror::{Error, ErrorKind};
+# use chadpath::item::{Item, NodeType};
+# use chadpath::pattern::Pattern;
+# use chadpath::transform::context::{Context, StaticContext, StaticContextBuilder};
+# use chadpath::Node;
+# use chadpath::trees::smite::RNode;
 # type F = Box<dyn FnMut(&str) -> Result<(), Error>>;
 let p = Pattern::try_from("child::foobar").expect("unable to compile pattern");
 let n = Item::Node(RNode::new_document());

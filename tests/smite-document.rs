@@ -1,6 +1,6 @@
 // Smite tests for documents
 
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 mod documentgeneric;
 mod smite;

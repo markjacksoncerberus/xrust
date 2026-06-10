@@ -1,7 +1,7 @@
 #[macro_export]
 macro_rules! pattern_tests (
     ( $t:ty , $x:expr , $y:expr ) => {
-	use xrust::pattern::Pattern;
+	use chadpath::pattern::Pattern;
 
 	#[test]
 	#[should_panic]

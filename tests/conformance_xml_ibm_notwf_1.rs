@@ -12,11 +12,11 @@ These are split into multiple files so rust can compile and test in parallel.
 #[cfg(all(test, feature = "test-conformance-xml"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::item::Node;
+use chadpath::item::Node;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::parser::{ParseError, xml};
+use chadpath::parser::{ParseError, xml};
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 #[cfg(all(test, feature = "test-conformance-xml"))]
 fn test_ibm_notwf(xmldoc: &str) {

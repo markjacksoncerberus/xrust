@@ -10,7 +10,7 @@ use encoding_rs_io::DecodeReaderBytesBuilder;
 use std::fs;
 use std::fs::File;
 use std::io::{Read, Seek, SeekFrom};
-use xrust::{Error, ErrorKind};
+use chadpath::{Error, ErrorKind};
 
 fn dtdfileresolve() -> fn(Option<String>, String) -> Result<String, Error> {
     move |locdir, uri| {

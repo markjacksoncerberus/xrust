@@ -12,11 +12,11 @@ NB. The Item module's Node trait is implemented for Rc\<smite::Node\>. For conve
 
 ```rust
 use std::rc::Rc;
-use xrust::trees::smite::RNode;
-use xrust::item::{Node as ItemNode, NodeType};
+use chadpath::trees::smite::RNode;
+use chadpath::item::{Node as ItemNode, NodeType};
 use qualname::{QName, NcName};
-use xrust::value::Value;
-use xrust::xdmerror::Error;
+use chadpath::value::Value;
+use chadpath::xdmerror::Error;
 
 //pub(crate) type ExtDTDresolver = fn(Option<String>, String) -> Result<String, Error>;
 

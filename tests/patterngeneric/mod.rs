@@ -1,14 +1,14 @@
 //! Tests for pattern module defined generically
 
 use std::rc::Rc;
-use xrust::ErrorKind;
+use chadpath::ErrorKind;
 
 use qualname::{NcName, QName};
-use xrust::item::{Item, Node};
-use xrust::pattern::Pattern;
-use xrust::transform::context::{Context, StaticContextBuilder};
-use xrust::value::Value;
-use xrust::xdmerror::Error;
+use chadpath::item::{Item, Node};
+use chadpath::pattern::Pattern;
+use chadpath::transform::context::{Context, StaticContextBuilder};
+use chadpath::value::Value;
+use chadpath::xdmerror::Error;
 
 pub fn pattern_empty<N: Node>() -> Result<(), Error> {
     let _: Pattern<N> = Pattern::try_from("").expect("unable to parse empty string");

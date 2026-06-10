@@ -2,10 +2,10 @@
 
 use qualname::{NcName, QName};
 use std::rc::Rc;
-use xrust::item::{Node, NodeType};
-use xrust::output::OutputSpec;
-use xrust::value::{Value, ValueBuilder, ValueData};
-use xrust::xdmerror::Error;
+use chadpath::item::{Node, NodeType};
+use chadpath::output::OutputSpec;
+use chadpath::value::{Value, ValueBuilder, ValueData};
+use chadpath::xdmerror::Error;
 
 pub fn get_attr_node<N: Node, G>(make_doc: G) -> Result<(), Error>
 where

@@ -10,11 +10,11 @@ NB. The Item module's Node trait is implemented for Rc\<intmuttree::Node\>. For 
 
 ```rust
 use std::rc::Rc;
-use xrust::trees::intmuttree::{Document, NodeBuilder, RNode};
-use xrust::item::{Node, NodeType};
-use xrust::qname::QualifiedName;
-use xrust::value::Value;
-use xrust::xdmerror::Error;
+use chadpath::trees::intmuttree::{Document, NodeBuilder, RNode};
+use chadpath::item::{Node, NodeType};
+use chadpath::qname::QualifiedName;
+use chadpath::value::Value;
+use chadpath::xdmerror::Error;
 
 pub(crate) type ExtDTDresolver = fn(Option<String>, String) -> Result<String, Error>;
 

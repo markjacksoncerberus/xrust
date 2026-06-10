@@ -1,7 +1,7 @@
 //! Tests for document creation, parsing, navigation, and manipulation defined generically
 
-use xrust::item::Node;
-use xrust::xdmerror::Error;
+use chadpath::item::Node;
+use chadpath::xdmerror::Error;
 
 pub fn document_create<N: Node, G>(make_empty_doc: G) -> Result<(), Error>
 where

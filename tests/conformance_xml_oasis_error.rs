@@ -7,11 +7,11 @@ OASIS/NIST test cases
 #[cfg(all(test, feature = "test-conformance-xml"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::item::Node;
+use chadpath::item::Node;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::parser::{ParseError, xml};
+use chadpath::parser::{ParseError, xml};
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 #[test]
 #[cfg(all(test, feature = "test-conformance-xml"))]

@@ -7,11 +7,11 @@ Bjoern Hoehrmann via HST 2013-09-18
 #[cfg(all(test, feature = "test-conformance-xml"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::item::Node;
+use chadpath::item::Node;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::parser::{ParseError, xml};
+use chadpath::parser::{ParseError, xml};
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 #[cfg(all(test, feature = "test-conformance-xml"))]
 fn test_eduni_misc_notwf(xmldoc: &str) {

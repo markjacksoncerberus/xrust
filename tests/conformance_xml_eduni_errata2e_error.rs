@@ -7,13 +7,13 @@ Richard Tobin's XML 1.0 2nd edition errata test suite.
 #[cfg(all(test, feature = "test-conformance-xml"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::item::Node;
+use chadpath::item::Node;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::parser::ParseError;
+use chadpath::parser::ParseError;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::parser::xml;
+use chadpath::parser::xml;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 #[cfg(all(test, feature = "test-conformance-xml"))]
 fn test_eduni_errata2e_error(xmldoc: &str) {

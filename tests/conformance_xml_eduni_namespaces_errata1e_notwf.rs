@@ -7,11 +7,11 @@ Richard Tobin's XML Namespaces 1.0/1.1 2nd edition test suite 1 June 2006
 #[cfg(all(test, feature = "test-conformance-xml"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::item::Node;
+use chadpath::item::Node;
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::parser::{ParseError, xml};
+use chadpath::parser::{ParseError, xml};
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use xrust::trees::smite::RNode;
+use chadpath::trees::smite::RNode;
 
 #[cfg(all(test, feature = "test-conformance-xml"))]
 fn test_eduni_namespaces_errata1e_notwf(xmldoc: &str) {

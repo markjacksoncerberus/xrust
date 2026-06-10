@@ -17,4 +17,4 @@ Modifications in this fork (relative to xrust 2.1.0):
   (src/parser/xpath/mod.rs) and the parser state is reference-counted with
   copy-on-write (src/parser/mod.rs and the XML DTD parser).
 
-See the git history for details. The importable library name remains `xrust`.
+See the git history for details.

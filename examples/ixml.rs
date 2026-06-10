@@ -16,14 +16,14 @@ use url::Url;
 
 use qualname::{NcName, QName};
 
-use xrust::item::{Item, Node, SequenceTrait};
-use xrust::parser::ParseError;
-use xrust::parser::xml::parse;
-use xrust::transform::context::StaticContextBuilder;
-use xrust::trees::smite::RNode;
-use xrust::value::Value;
-use xrust::xdmerror::{Error, ErrorKind};
-use xrust::xslt::from_document;
+use chadpath::item::{Item, Node, SequenceTrait};
+use chadpath::parser::ParseError;
+use chadpath::parser::xml::parse;
+use chadpath::transform::context::StaticContextBuilder;
+use chadpath::trees::smite::RNode;
+use chadpath::value::Value;
+use chadpath::xdmerror::{Error, ErrorKind};
+use chadpath::xslt::from_document;
 
 use earleybird::ixml_grammar::{ixml_grammar, ixml_tree_to_grammar};
 use earleybird::parser::{Content, Parser};

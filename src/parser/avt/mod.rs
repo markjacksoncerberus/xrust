@@ -18,7 +18,7 @@ use std::rc::Rc;
 use crate::parser::combinators::support::none_of;
 use crate::parser::xpath::expr;
 use crate::transform::Transform;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 /// AVT ::= text* "{" xpath "}" text*
 /// A [Node] is required to resolve in-scope XML Namespaces

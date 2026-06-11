@@ -13,7 +13,7 @@
 //! use chadpath::value::Value;
 //! use chadpath::transform::Transform;
 //! use chadpath::transform::callable::ActualParameters;
-//! use qualname::{QName, NcName};
+//! use chadpath::names::{QName, NcName};
 //!
 //! fn get_feature<N: Node>(policy: &Policy<N>) -> Result<Option<String>, Error> {
 //!    match policy.get(
@@ -45,7 +45,7 @@
 //! ```rust
 //! use chadpath::security::{Feature, Policy};
 //! use chadpath::trees::smite::RNode;
-//! use qualname::{QName, NcName};
+//! use chadpath::names::{QName, NcName};
 //!
 //! let mut policy: Policy<RNode> = Policy::new(QName::from_local_name(
 //!    NcName::try_from("test_policy").unwrap(),
@@ -65,7 +65,7 @@ use crate::transform::Transform;
 use crate::transform::callable::ActualParameters;
 use crate::transform::context::{Context, StaticContextBuilder};
 use crate::xdmerror::{Error, ErrorKind};
-use qualname::QName;
+use crate::names::QName;
 
 /// The result of determining the limitation or constraint for a security feature.
 /// Permitted means that the application is allowed to access the resource.

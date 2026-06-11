@@ -9,7 +9,7 @@ use crate::parser::combinators::whitespace::whitespace0;
 use crate::parser::xml::dtd::extsubset::extsubsetdecl;
 use crate::parser::xml::dtd::pereference::petextreference;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn conditionalsect<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, ()), ParseError>

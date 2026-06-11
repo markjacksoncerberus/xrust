@@ -2,7 +2,7 @@
 */
 
 use core::fmt;
-use qualname::QName;
+use crate::names::QName;
 
 /// An output definition. See XSLT v3.0 26 Serialization
 #[derive(Clone, Debug)]

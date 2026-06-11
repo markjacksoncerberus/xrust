@@ -16,7 +16,7 @@ use crate::parser::combinators::tag::anychar;
 use crate::parser::combinators::tuple::{tuple2, tuple6};
 use crate::parser::{ParseError, ParseInput, ParserState, StaticState, StaticStateBuilder};
 use crate::xdmerror::*;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // This implementation translates an XPath picture string to a strftime format
 

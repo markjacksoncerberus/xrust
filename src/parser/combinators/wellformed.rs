@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn wellformed<'a, P, F, A, N: Node, L>(
     parser: P,

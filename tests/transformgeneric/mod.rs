@@ -1,7 +1,7 @@
 //! Tests for transform module defined generically
 
 use chrono::{Datelike, Local, Timelike};
-use qualname::{NamespaceDeclaration, NamespaceMap, NamespacePrefix, NamespaceUri, NcName, QName};
+use chadpath::names::{NamespaceDeclaration, NamespaceMap, NamespacePrefix, NamespaceUri, NcName, QName};
 use std::rc::Rc;
 use chadpath::item::{Item, Node, SequenceTrait};
 use chadpath::output::OutputSpec;

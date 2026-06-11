@@ -16,7 +16,7 @@ use crate::parser::xml::dtd::textdecl::textdecl;
 use crate::parser::xml::misc::{comment, processing_instruction};
 use crate::parser::xml::utf8bom;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn extsubset<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, ()), ParseError>

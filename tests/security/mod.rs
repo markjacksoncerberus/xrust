@@ -1,6 +1,6 @@
 //! Tests for security-related features
 
-use qualname::{NamespaceUri, NcName, QName};
+use chadpath::names::{NamespaceUri, NcName, QName};
 use std::rc::Rc;
 use chadpath::ErrorKind;
 use chadpath::item::{Item, Node};

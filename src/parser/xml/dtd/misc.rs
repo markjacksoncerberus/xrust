@@ -14,7 +14,7 @@ use crate::parser::xml::dtd::pereference::petextreference;
 use crate::parser::xml::qname::name;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::xmldecl::DTDPattern;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn nmtoken<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, String), ParseError>

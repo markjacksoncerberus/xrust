@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn pair<'a, P1, P2, A, B, N: Node, L>(
     parser1: P1,

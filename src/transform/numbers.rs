@@ -1,6 +1,6 @@
 //! These functions are for features defined in XPath Functions 1.0 and 2.0.
 
-use qualname::{NcName, QName};
+use crate::names::{NcName, QName};
 use std::cmp::Ordering;
 use std::rc::Rc;
 use url::Url;

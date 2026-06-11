@@ -95,7 +95,7 @@ use crate::parser::combinators::tuple::{tuple2, tuple3};
 use crate::parser::{
     ParseError, ParseInput, ParserState, ParserStateBuilder, StaticState, StaticStateBuilder,
 };
-use qualname::{NamespacePrefix, NamespaceUri, NcName, QName};
+use crate::names::{NamespacePrefix, NamespaceUri, NcName, QName};
 
 /// An XPath pattern. A pattern most frequently appears as the value of a match attribute.
 /// A pattern is either a predicate pattern or a selection pattern.

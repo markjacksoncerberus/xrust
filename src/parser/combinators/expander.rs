@@ -4,7 +4,7 @@ use crate::parser::combinators::tag::tag;
 use crate::parser::combinators::take::take_until;
 use crate::parser::{ParseError, ParseInput, ParseResult, StaticState};
 use crate::xmldecl::DTDDecl;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn geexpander(inp: RNode) -> RNode {}
 

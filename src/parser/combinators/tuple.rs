@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub fn tuple2<'a, P1, P2, R1, R2, N: Node, L>(
     parser1: P1,
@@ -497,7 +497,7 @@ mod tests {
     use crate::parser::combinators::tuple::tuple3;
     use crate::parser::{ParseError, ParserState, StaticStateBuilder};
     use crate::trees::nullo::Nullo;
-    use qualname::NamespaceUri;
+    use crate::names::NamespaceUri;
 
     #[test]
     fn parser_tuple3_test1() {

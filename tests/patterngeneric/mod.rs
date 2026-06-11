@@ -3,7 +3,7 @@
 use std::rc::Rc;
 use chadpath::ErrorKind;
 
-use qualname::{NcName, QName};
+use chadpath::names::{NcName, QName};
 use chadpath::item::{Item, Node};
 use chadpath::pattern::Pattern;
 use chadpath::transform::context::{Context, StaticContextBuilder};

@@ -8,7 +8,7 @@ use crate::parser::combinators::take::take_while;
 use crate::parser::xml::chardata::chardata_escapes;
 use crate::parser::xml::chardata::chardata_unicode_codepoint;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn delimited_string<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, String), ParseError>

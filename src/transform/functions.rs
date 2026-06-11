@@ -13,7 +13,7 @@ use crate::transform::context::{Context, StaticContext};
 use crate::transform::{NamespaceMap, Transform};
 use crate::value::Value;
 use crate::xdmerror::{Error, ErrorKind};
-use qualname::{NamespaceUri, NcName, QName};
+use crate::names::{NamespaceUri, NcName, QName};
 
 /// XPath position function.
 pub fn position<N: Node>(ctxt: &Context<N>) -> Result<Sequence<N>, Error> {

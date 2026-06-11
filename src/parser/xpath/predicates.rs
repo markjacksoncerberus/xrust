@@ -10,7 +10,7 @@ use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
 //use crate::parser::combinators::debug::inspect;
 use crate::parser::xpath::expr_wrapper;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // PredicateList ::= Predicate*
 pub(crate) fn predicate_list<'a, N: Node + 'a, L>() -> Box<

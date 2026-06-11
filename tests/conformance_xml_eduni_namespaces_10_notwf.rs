@@ -5,7 +5,7 @@ Richard Tobin's XML Namespaces 1.0 test suite 14 Feb 2003
 */
 
 #[cfg(all(test, feature = "test-conformance-xml"))]
-use qualname::NamespacePrefix;
+use chadpath::names::NamespacePrefix;
 #[cfg(all(test, feature = "test-conformance-xml"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xml"))]

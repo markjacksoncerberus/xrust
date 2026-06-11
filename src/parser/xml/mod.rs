@@ -22,7 +22,7 @@ use crate::parser::{
 };
 use crate::xdmerror::{Error, ErrorKind};
 use crate::xmldecl::XMLDecl;
-use qualname::{NamespaceMap, NamespacePrefix, NamespaceUri};
+use crate::names::{NamespaceMap, NamespacePrefix, NamespaceUri};
 
 pub fn parse_with_state<N: Node, L>(
     input: &str,

@@ -14,7 +14,7 @@ use crate::parser::xml::qname::qualname_to_parts;
 use crate::parser::xml::reference::textreference;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::value::{ID, Value};
-use qualname::{NamespaceDeclaration, NamespacePrefix, NamespaceUri, NcName, QName};
+use crate::names::{NamespaceDeclaration, NamespacePrefix, NamespaceUri, NcName, QName};
 use std::rc::Rc;
 
 /// Parse all of the attributes in an element's start tag.

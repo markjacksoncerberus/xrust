@@ -1,5 +1,5 @@
 #[cfg(all(test, feature = "test-conformance-xmlid"))]
-use qualname::{NamespaceMap, NamespacePrefix};
+use chadpath::names::{NamespaceMap, NamespacePrefix};
 #[cfg(all(test, feature = "test-conformance-xmlid"))]
 use std::fs;
 #[cfg(all(test, feature = "test-conformance-xmlid"))]

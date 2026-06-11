@@ -11,7 +11,7 @@ use crate::parser::common::{is_pubid_char, is_pubid_charwithapos};
 use crate::parser::xml::dtd::extsubset::extsubset;
 use crate::parser::xml::dtd::textdecl::textdecl;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn externalid<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, ()), ParseError>

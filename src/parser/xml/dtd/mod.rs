@@ -26,7 +26,7 @@ use crate::parser::xml::qname::name;
 use crate::parser::xml::reference::reference;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::xmldecl::{AttType, DTDPattern, DefaultDecl};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 #[derive(Clone)]
 pub(crate) enum Occurances {

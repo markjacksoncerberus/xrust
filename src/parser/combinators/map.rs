@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, ParserState, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub fn map<'a, P, F, A, B, N: Node, L>(
     parser: P,

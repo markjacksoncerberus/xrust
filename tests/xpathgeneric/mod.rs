@@ -1,7 +1,7 @@
 //! Tests for XPath defined generically
 
 use pkg_version::{pkg_version_major, pkg_version_minor, pkg_version_patch};
-use qualname::{NamespaceDeclaration, NamespaceMap, NamespacePrefix, NamespaceUri, NcName, QName};
+use chadpath::names::{NamespaceDeclaration, NamespaceMap, NamespacePrefix, NamespaceUri, NcName, QName};
 use std::ops::Deref;
 use std::rc::Rc;
 use chadpath::item::{Item, Node, NodeType, Sequence, SequenceTrait};

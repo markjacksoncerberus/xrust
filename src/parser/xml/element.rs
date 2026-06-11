@@ -16,7 +16,7 @@ use crate::parser::xml::reference::reference;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::value::{ID, IDREF, Value, ValueBuilder, ValueData};
 use crate::xmldecl::{AttType, DefaultDecl};
-use qualname::{NamespacePrefix, NamespaceUri, NcName, QName};
+use crate::names::{NamespacePrefix, NamespaceUri, NcName, QName};
 use std::rc::Rc;
 use std::sync::LazyLock;
 

@@ -6,7 +6,7 @@ use crate::parser::combinators::whitespace::{whitespace0, whitespace1};
 use crate::parser::xml::dtd::misc::contentspec;
 use crate::parser::xml::qname::qualname_to_parts;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 //elementdecl	   ::=   	'<!ELEMENT' S Name S contentspec S? '>'
 pub(crate) fn elementdecl<'a, N: Node, L>()

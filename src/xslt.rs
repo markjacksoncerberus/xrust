@@ -86,7 +86,7 @@ use crate::transform::{
 };
 use crate::value::Value;
 use crate::xdmerror::*;
-use qualname::{NamespaceUri, NcName, QName};
+use crate::names::{NamespaceUri, NcName, QName};
 use std::convert::TryFrom;
 use std::sync::LazyLock;
 use url::Url;

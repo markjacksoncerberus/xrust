@@ -15,7 +15,7 @@ use crate::parser::xpath::predicates::predicate_list;
 use crate::parser::xpath::variables::variable_reference;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // PostfixExpr ::= PrimaryExpr (Predicate | ArgumentList | Lookup)*
 // TODO: arg list, lookup

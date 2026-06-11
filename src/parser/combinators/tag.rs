@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub fn tag<'a, N: Node, L>(
     expected: &str,
@@ -84,7 +84,7 @@ mod tests {
     use crate::parser::combinators::tag::{anychar, anytag, tag};
     use crate::parser::{ParseError, ParserState, StaticStateBuilder};
     use crate::trees::nullo::Nullo;
-    use qualname::NamespaceUri;
+    use crate::names::NamespaceUri;
 
     #[test]
     fn parser_tag_test1() {

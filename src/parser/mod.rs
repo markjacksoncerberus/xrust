@@ -8,7 +8,7 @@ use crate::externals::URLResolver;
 use crate::item::Node;
 use crate::xdmerror::{Error, ErrorKind};
 use crate::xmldecl::DTD;
-use qualname::{NamespaceMap, NamespacePrefix, NamespaceUri};
+use crate::names::{NamespaceMap, NamespacePrefix, NamespaceUri};
 use std::collections::HashSet;
 use std::fmt;
 use std::rc::Rc;

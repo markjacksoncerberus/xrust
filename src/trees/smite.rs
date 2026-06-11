@@ -14,7 +14,7 @@ NB. The Item module's Node trait is implemented for Rc\<smite::Node\>. For conve
 use std::rc::Rc;
 use chadpath::trees::smite::RNode;
 use chadpath::item::{Node as ItemNode, NodeType};
-use qualname::{QName, NcName};
+use chadpath::names::{QName, NcName};
 use chadpath::value::Value;
 use chadpath::xdmerror::Error;
 
@@ -51,7 +51,7 @@ use crate::validators::{Schema, ValidationError};
 use crate::value::{Value, ValueData};
 use crate::xdmerror::*;
 use crate::xmldecl::{DTD, XMLDecl, XMLDeclBuilder};
-use qualname::{NamespacePrefix, NamespaceUri, NcName, QName};
+use crate::names::{NamespacePrefix, NamespaceUri, NcName, QName};
 use regex::Regex;
 use std::cell::RefCell;
 use std::cmp::Ordering;

@@ -3,7 +3,7 @@
 University of Edinburgh XML 1.0 4th edition errata test suite.
 
 */
-use qualname::NamespacePrefix;
+use chadpath::names::NamespacePrefix;
 use std::fs;
 use chadpath::item::{Node, NodeType};
 use chadpath::parser::xml;

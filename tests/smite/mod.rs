@@ -2,7 +2,7 @@
 
 use std::rc::Rc;
 
-use qualname::{NamespaceMap, QName};
+use chadpath::names::{NamespaceMap, QName};
 use chadpath::item::{Item, Node};
 use chadpath::parser::ParseError;
 use chadpath::parser::xml::{parse as xmlparse, parse_with_ns};

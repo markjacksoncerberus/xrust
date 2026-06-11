@@ -14,7 +14,7 @@ use std::path::Path;
 use std::rc::Rc;
 use url::Url;
 
-use qualname::{NcName, QName};
+use chadpath::names::{NcName, QName};
 
 use chadpath::item::{Item, Node, SequenceTrait};
 use chadpath::parser::ParseError;

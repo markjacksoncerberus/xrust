@@ -212,7 +212,7 @@ checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 
 [[package]]
 name = "chadpath"
-version = "0.3.2"
+version = "0.3.3"
 dependencies = [
  "chrono",
  "criterion",
@@ -226,7 +226,6 @@ dependencies = [
  "italian_numbers",
  "lexers",
  "pkg-version",
- "qualname",
  "regex",
  "rust_decimal",
  "rust_decimal_macros",
@@ -997,12 +996,6 @@ dependencies = [
  "quote",
  "syn 1.0.109",
 ]
-
-[[package]]
-name = "qualname"
-version = "0.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f7ca141ff6dd6af1bf241aa43eac7491d69c9be5059574708495e61948ab4bac"
 
 [[package]]
 name = "quick-xml"

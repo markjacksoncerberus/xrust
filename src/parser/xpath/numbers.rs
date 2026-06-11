@@ -12,7 +12,7 @@ use crate::parser::combinators::whitespace::xpwhitespace;
 use crate::parser::xpath::nodes::{path_expr, union_expr};
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::{ArithmeticOperand, ArithmeticOperator, Transform};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // RangeExpr ::= AdditiveExpr ( 'to' AdditiveExpr)?
 pub(crate) fn range_expr<'a, N: Node + 'a, L>() -> Box<

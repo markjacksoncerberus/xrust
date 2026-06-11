@@ -35,7 +35,7 @@ use crate::transform::variables::{declare_variable, reference_variable};
 use crate::transform::{MAXDEPTH, Transform};
 use crate::xdmerror::Error;
 use crate::{ErrorKind, Item, SequenceTrait, Value};
-use qualname::{NamespaceMap, NamespaceUri, NcName, QName};
+use crate::names::{NamespaceMap, NamespaceUri, NcName, QName};
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -844,7 +844,7 @@ where
 /// The main feature of the static context is the ability to set up a callback for messages.
 /// ```rust
 /// use std::rc::Rc;
-/// use qualname::{QName, NcName};
+/// use chadpath::names::{QName, NcName};
 /// use chadpath::{Error, ErrorKind};
 /// use chadpath::value::Value;
 /// use chadpath::item::{Item, Sequence, SequenceTrait, Node, NodeType};

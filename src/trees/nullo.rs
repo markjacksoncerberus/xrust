@@ -12,7 +12,7 @@ use crate::validators::{Schema, ValidationError};
 use crate::value::Value;
 use crate::xdmerror::{Error, ErrorKind};
 use crate::xmldecl::{DTD, XMLDecl, XMLDeclBuilder};
-use qualname::{NamespacePrefix, NamespaceUri, QName};
+use crate::names::{NamespacePrefix, NamespaceUri, QName};
 use std::cmp::Ordering;
 use std::fmt;
 use std::rc::Rc;

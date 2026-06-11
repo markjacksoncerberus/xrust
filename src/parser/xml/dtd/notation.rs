@@ -13,7 +13,7 @@ use crate::parser::common::{is_pubid_char, is_pubid_charwithapos};
 use crate::parser::xml::qname::{name, qualname_to_parts};
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::xmldecl::{AttType, DTDDecl};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 //NotationType ::= 'NOTATION' S '(' S? Name (S? '|' S? Name)* S? ')'
 pub(crate) fn notationtype<'a, N: Node, L>()

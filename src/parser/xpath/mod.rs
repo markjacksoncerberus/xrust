@@ -80,7 +80,7 @@ use crate::transform::Transform;
 use crate::xdmerror::{Error, ErrorKind};
 use std::cell::RefCell;
 use std::rc::Rc;
-use qualname::{NamespaceMap, NamespacePrefix, NamespaceUri};
+use crate::names::{NamespaceMap, NamespacePrefix, NamespaceUri};
 
 /// Parse an XPath expression to produce a [Transform]. The optional [Node] or [NamespaceMap] may be used to resolve XML Namespaces (The [Node] will be searched first).
 pub fn parse<N: Node>(

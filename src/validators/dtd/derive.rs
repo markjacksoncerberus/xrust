@@ -1,6 +1,6 @@
 use crate::Node;
 use crate::item::NodeType;
-use qualname::QName;
+use crate::names::QName;
 
 use crate::xmldecl::{DTD, DTDPattern};
 

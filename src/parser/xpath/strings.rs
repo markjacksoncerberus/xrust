@@ -9,7 +9,7 @@ use crate::parser::combinators::whitespace::xpwhitespace;
 use crate::parser::xpath::numbers::range_expr;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // StringConcatExpr ::= RangeExpr ( '||' RangeExpr)*
 pub(crate) fn stringconcat_expr<'a, N: Node + 'a, L>() -> Box<

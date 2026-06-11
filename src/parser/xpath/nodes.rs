@@ -20,7 +20,7 @@ use crate::transform::{
     Axis, KindTest, NameTest, NodeMatch, NodeTest, Transform, WildcardOrName,
     WildcardOrNamespaceUri,
 };
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // UnionExpr ::= IntersectExceptExpr ( ('union' | '|') IntersectExceptExpr)*
 pub(crate) fn union_expr<'a, N: Node + 'a, L>() -> Box<

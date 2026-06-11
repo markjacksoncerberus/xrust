@@ -9,7 +9,7 @@ use crate::parser::xpath::nodetests::qualname_test;
 use crate::parser::xpath::support::get_nt_localname;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::{Transform, in_scope_namespaces};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // VarRef ::= '$' VarName
 pub(crate) fn variable_reference<'a, N: Node + 'a, L>() -> Box<

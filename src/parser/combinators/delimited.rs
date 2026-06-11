@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn delimited<'a, P1, P2, P3, R1, R2, R3, N: Node, L>(
     parser1: P1,
@@ -27,7 +27,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use qualname::NamespaceUri;
+    use crate::names::NamespaceUri;
 
     use crate::parser::combinators::delimited::delimited;
     use crate::parser::combinators::tag::tag;

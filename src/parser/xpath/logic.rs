@@ -9,7 +9,7 @@ use crate::parser::combinators::whitespace::xpwhitespace;
 use crate::parser::xpath::compare::comparison_expr;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // OrExpr ::= AndExpr ('or' AndExpr)*
 pub(crate) fn or_expr<'a, N: Node + 'a, L>() -> Box<

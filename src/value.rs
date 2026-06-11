@@ -2,7 +2,7 @@
 //!
 //! An atomic value that is an item in a sequence.
 
-use qualname::{NamespaceUri, NcName, QName};
+use crate::names::{NamespaceUri, NcName, QName};
 
 use crate::output::OutputSpec;
 use crate::xdmerror::{Error, ErrorKind};

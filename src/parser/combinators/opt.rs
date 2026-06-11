@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn opt<'a, P1, R1, N: Node, L>(
     parser1: P1,
@@ -22,7 +22,7 @@ mod tests {
     use crate::parser::combinators::tag::tag;
     use crate::parser::{ParseError, ParserState, StaticStateBuilder};
     use crate::trees::nullo::Nullo;
-    use qualname::NamespaceUri;
+    use crate::names::NamespaceUri;
 
     #[test]
     fn parser_opt_test1() {

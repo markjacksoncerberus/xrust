@@ -19,7 +19,7 @@ use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::callable::ActualParameters;
 use crate::transform::{NameTest, NodeTest, Transform, in_scope_namespaces};
 use crate::xdmerror::ErrorKind;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // ArrowExpr ::= UnaryExpr ( '=>' ArrowFunctionSpecifier ArgumentList)*
 pub(crate) fn arrow_expr<'a, N: Node + 'a, L>() -> Box<

@@ -17,7 +17,7 @@ use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
 use crate::value::Value;
 use crate::xdmerror::ErrorKind;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 use rust_decimal::Decimal;
 

@@ -1,7 +1,7 @@
 //! Tests for XSLT defined generically
 
 use pkg_version::{pkg_version_major, pkg_version_minor, pkg_version_patch};
-use qualname::NamespaceMap;
+use chadpath::names::NamespaceMap;
 use url::Url;
 use chadpath::item::{Item, Node, Sequence, SequenceTrait};
 use chadpath::transform::context::StaticContextBuilder;

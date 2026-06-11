@@ -1,3 +1,14 @@
+# Fast linking with LLD. The Rust toolchain already ships `rust-lld` (the LLVM
+# linker); `~/.local/bin/ld.lld` is a symlink to it (lld picks its GNU flavour
+# from argv[0]), and clang drives it via `-B`/`-fuse-ld=lld`. This needs no
+# system package — just the symlink — and links the rlib several times faster
+# than GNU ld, which is the dominant cost when building the many test binaries.
+# If you prefer mold: `sudo apt install mold` then swap `-fuse-ld=lld` for
+# `-fuse-ld=mold` (and drop the `-B` arg).
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-C", "link-arg=-B/home/cerberus/.local/bin", "-C", "link-arg=-fuse-ld=lld"]
+
 [alias]
 test-xml = """test
                 --test conformance_xml_eduni_misc_invalid

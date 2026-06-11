@@ -9,7 +9,7 @@ use crate::parser::xml::dtd::misc::nmtoken;
 use crate::parser::xml::dtd::notation::notationtype;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::xmldecl::AttType;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 //EnumeratedType ::= NotationType | Enumeration
 pub(crate) fn enumeratedtype<'a, N: Node, L>()

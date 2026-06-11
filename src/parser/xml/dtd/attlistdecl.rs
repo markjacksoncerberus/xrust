@@ -17,7 +17,7 @@ use crate::parser::xml::qname::{name, qualname_to_parts};
 use crate::parser::xml::reference::textreference;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::xmldecl::{AttType, DefaultDecl};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 use std::collections::HashMap;
 
 //AttlistDecl ::= '<!ATTLIST' S Name AttDef* S? '>'

@@ -10,7 +10,7 @@ use crate::parser::combinators::tuple::tuple3;
 use crate::parser::xml::qname::{ncname, qualname_to_qname};
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::{KindTest, NameTest, NodeTest, WildcardOrName, WildcardOrNamespaceUri};
-use qualname::{NamespacePrefix, NamespaceUri, NcName, QName};
+use crate::names::{NamespacePrefix, NamespaceUri, NcName, QName};
 
 pub(crate) fn qualname_test<'a, N: Node + 'a, L>() -> Box<
     dyn Fn(

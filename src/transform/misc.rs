@@ -5,7 +5,7 @@ use crate::item::{Node, Sequence, SequenceTrait};
 use crate::transform::Transform;
 use crate::transform::context::{Context, StaticContext};
 use crate::xdmerror::Error;
-use qualname::{NamespaceUri, NcName, QName};
+use crate::names::{NamespaceUri, NcName, QName};
 use url::Url;
 
 /// XSLT current() function.

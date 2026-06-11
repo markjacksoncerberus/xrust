@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn take_one<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, char), ParseError>
@@ -182,7 +182,7 @@ mod tests {
     };
     use crate::parser::{ParseError, ParserState, StaticStateBuilder};
     use crate::trees::nullo::Nullo;
-    use qualname::NamespaceUri;
+    use crate::names::NamespaceUri;
 
     #[test]
     fn parser_take_until_test1() {

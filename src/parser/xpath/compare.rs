@@ -11,7 +11,7 @@ use crate::parser::xpath::strings::stringconcat_expr;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
 use crate::value::Operator;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // ComparisonExpr ::= StringConcatExpr ( (ValueComp | GeneralComp | NodeComp) StringConcatExpr)?
 pub(crate) fn comparison_expr<'a, N: Node + 'a, L>() -> Box<

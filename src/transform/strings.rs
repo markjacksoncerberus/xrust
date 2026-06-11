@@ -2,7 +2,7 @@
 
 use std::rc::Rc;
 
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 use unicode_segmentation::UnicodeSegmentation;
 use url::Url;
 

@@ -11,7 +11,7 @@ use crate::parser::xpath::functions::arrow_expr;
 use crate::parser::xpath::nodetests::qualname_test;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // InstanceOfExpr ::= TreatExpr ( 'instance' 'of' SequenceType)?
 pub(crate) fn instanceof_expr<'a, N: Node + 'a, L>() -> Box<

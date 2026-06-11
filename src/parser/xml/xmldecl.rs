@@ -10,7 +10,7 @@ use crate::parser::combinators::whitespace::{whitespace0, whitespace1};
 use crate::parser::xml::strings::delimited_string;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::xmldecl::XMLDecl;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 fn xmldeclversion<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, String), ParseError>

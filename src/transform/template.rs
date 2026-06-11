@@ -9,7 +9,7 @@ use crate::transform::context::{Context, ContextBuilder, StaticContext};
 use crate::transform::{Order, Transform, do_sort};
 use crate::xdmerror::Error;
 use crate::{Node, Pattern, Sequence};
-use qualname::QName;
+use crate::names::QName;
 
 #[derive(Clone)]
 pub struct Template<N: Node> {

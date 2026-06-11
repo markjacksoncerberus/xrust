@@ -13,7 +13,7 @@ use crate::parser::xpath::support::get_nt_localname;
 use crate::parser::xpath::{expr_single_wrapper, expr_wrapper};
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::{Transform, in_scope_namespaces};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // IfExpr ::= 'if' '(' Expr ')' 'then' ExprSingle 'else' ExprSingle
 pub(crate) fn if_expr<'a, N: Node + 'a, L>() -> Box<

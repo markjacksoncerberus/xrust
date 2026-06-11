@@ -9,7 +9,7 @@ use crate::item::Node;
 use crate::transform::context::StaticContext;
 use crate::transform::{NamespaceMap, Transform};
 use crate::{Context, Error, ErrorKind, Sequence};
-use qualname::QName;
+use crate::names::QName;
 use std::collections::HashMap;
 use url::Url;
 

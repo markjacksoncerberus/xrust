@@ -1,4 +1,4 @@
-/* Benchmark use of qualname::QName  */
+/* Benchmark use of chadpath::names::QName  */
 
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -7,7 +7,7 @@ use std::sync::LazyLock;
 use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
 use std::hint::black_box;
 
-use qualname::{NamespaceUri, NcName, QName};
+use chadpath::names::{NamespaceUri, NcName, QName};
 use chadpath::item::Node;
 use chadpath::parser::ParseError;
 use chadpath::parser::xml::parse;

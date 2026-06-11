@@ -6,7 +6,7 @@ use crate::parser::xml::dtd::extsubset::extsubset;
 use crate::parser::xml::element::content;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::value::Value;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 use std::rc::Rc;
 
 // Reference ::= EntityRef | CharRef

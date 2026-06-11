@@ -1,4 +1,4 @@
-use qualname::QName;
+use chadpath::names::QName;
 use chadpath::item::{Node, NodeType};
 use chadpath::item_node_tests;
 use chadpath::item_value_tests;

@@ -7,7 +7,7 @@ An [Item] is a [Node], Function or atomic [Value].
 [Node]s are defined as a trait.
 */
 
-use qualname::{NamespacePrefix, NamespaceUri, QName};
+use crate::names::{NamespacePrefix, NamespaceUri, QName};
 
 use crate::item;
 use crate::output::OutputDefinition;

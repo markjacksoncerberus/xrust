@@ -1,9 +1,18 @@
 [package]
 name = "chadpath"
-version = "0.3.2"
+version = "0.3.3"
 keywords = ["xml", "xpath", "xslt", "html", "scraping"]
 categories = ["parser-implementations"]
 description = "XPath 1.0 / XSLT engine — a fork of xrust (Apache-2.0) with XPath positional-predicate correctness fixes and parser performance improvements. Used by chadselect."
+# 0.3.3: drop the upstream `qualname` 0.0.1 dependency for an internal, lock-free
+#        name type (`chadpath::names`). Upstream backed every NcName/NamespaceUri
+#        with an index into a process-global `RwLock<Vec<…>>` arena, so cloning or
+#        dropping a name — which a name test does for every node it visits — took
+#        a global *write* lock. That serialized XPath name-testing across all
+#        threads (the multi-threaded "pegs the kernel" symptom). The replacement
+#        holds an `Arc<str>`: lock-free atomic clone/drop, content-based equality
+#        with a pointer fast-path, no shared mutable state. API- and
+#        semantics-compatible; full test suite passes; one fewer dependency.
 # 0.3.2: per-query allocation-churn cut on the XPath evaluation path (no
 #        behaviour change; verified against the full test suite). `compose`
 #        evolves a single Context in place instead of deep-cloning it every step;
@@ -53,7 +62,6 @@ harness = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-qualname = "0.0.1"
 stacksafe = "1"
 rust_decimal = "1.38.0"
 rust_decimal_macros = "1.38.0"
@@ -79,3 +87,237 @@ encoding_rs = "0.8.35"
 encoding_rs_io = "0.1.7"
 earleybird = { git = "https://github.com/mdubinko/earleybird.git" }
 indextree = "4.7.4"
+
+# --- Conformance test targets -------------------------------------------------
+# The W3C XML / xml:id conformance suites are large and gated behind opt-in
+# features. Declaring them as explicit [[test]] targets with `required-features`
+# means a plain `cargo test` SKIPS building them entirely (otherwise each one is
+# auto-discovered and links the whole rlib into an empty binary). Run them with
+# `cargo test-xml` / `cargo test-xmlid` (see .cargo/config.toml aliases).
+
+[[test]]
+name = "conformance_xml_eduni_errata2e_error"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata2e_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata2e_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata2e_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata3e_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata3e_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata3e_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata4e_error"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata4e_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata4e_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_errata4e_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_misc_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_misc_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_namespaces_10_error"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_namespaces_10_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_namespaces_10_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_namespaces_10_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_namespaces_11_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_namespaces_11_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_namespaces_errata1e_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_xml11_error"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_xml11_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_xml11_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_eduni_xml11_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm11_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm11_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm11_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_error"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_1"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_2"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_3"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_4"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_5"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_6"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_7"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_notwf_8"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_ibm_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_oasis_error"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_oasis_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_oasis_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_oasis_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_sun_error"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_sun_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_sun_notwf"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_sun_valid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_invalid"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_notwf_ext_sa"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_notwf_not_sa"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_notwf_sa"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_valid_ext_sa"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_valid_not_sa"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_valid_sa_canonicalonly"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xml_xmltest_valid_sa"
+required-features = ["test-conformance-xml"]
+
+[[test]]
+name = "conformance_xmlid_normwalsh"
+required-features = ["test-conformance-xmlid"]
+
+# A fast-iteration profile for the test loop: opt-level 1 compiles far faster
+# than release (opt-level 3) yet runs far faster than an unoptimised debug
+# build, so `cargo test` (no --release) is the right default and there is no
+# need to flip profiles (which forces a full recompile in a separate target dir).
+[profile.test]
+opt-level = 1

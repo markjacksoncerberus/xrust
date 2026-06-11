@@ -77,6 +77,10 @@ We need your help!
 pub mod xdmerror;
 pub use xdmerror::{Error, ErrorKind};
 
+/// XML qualified names (`QName`, `NcName`, namespaces) — a self-contained,
+/// lock-free replacement for the upstream `qualname` crate. See the module docs.
+pub mod names;
+
 pub mod externals;
 pub mod output;
 pub mod xmldecl;

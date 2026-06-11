@@ -5,7 +5,7 @@ use crate::parser::combinators::map::map;
 use crate::parser::combinators::tag::tag;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::Transform;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 // ContextItemExpr ::= '.'
 pub(crate) fn context_item<'a, N: Node + 'a, L>() -> Box<

@@ -2,7 +2,7 @@
 macro_rules! item_node_tests (
     ( $x:expr, $y:expr, $z:expr ) => {
 	use std::cmp::Ordering;
-	use qualname::NcName;
+	use $crate::names::NcName;
 
 	#[test]
 	fn node_push_content() {

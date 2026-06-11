@@ -8,7 +8,7 @@ use crate::parser::combinators::take::{take_until, take_while};
 use crate::parser::combinators::wellformed::{wellformed, wellformed_ver};
 use crate::parser::common::{is_char10, is_char11, is_unrestricted_char11};
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 use std::str::FromStr;
 
 // CharData ::= [^<&]* - (']]>')

@@ -3,7 +3,7 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::transform::{NameTest, NodeTest, Transform};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn get_nt_localname(nt: &NodeTest) -> String {
     match nt {

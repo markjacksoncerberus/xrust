@@ -13,7 +13,7 @@ use crate::parser::common::{is_char10, is_char11};
 use crate::parser::xml::qname::name;
 use crate::parser::{ParseError, ParseInput, StaticState};
 use crate::value::Value;
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 use std::rc::Rc;
 
 // PI ::= '<?' PITarget (char* - '?>') '?>'

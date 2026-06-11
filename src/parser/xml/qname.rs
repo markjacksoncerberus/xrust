@@ -13,7 +13,7 @@ use crate::parser::combinators::wellformed::wellformed;
 use crate::parser::common::{is_namechar, is_namestartchar, is_ncnamechar, is_ncnamestartchar};
 use crate::parser::xml::dtd::pereference::petextreference;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri, NcName, QName};
+use crate::names::{NamespacePrefix, NamespaceUri, NcName, QName};
 
 // QualifiedName, returning a QName
 pub(crate) fn qualname_to_qname<'a, N: Node, L>()

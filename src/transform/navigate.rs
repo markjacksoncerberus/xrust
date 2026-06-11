@@ -6,7 +6,7 @@ use crate::transform::context::{Context, StaticContext};
 use crate::transform::{Axis, NodeMatch, Transform};
 use crate::value::ValueData;
 use crate::xdmerror::{Error, ErrorKind};
-use qualname::{NcName, QName};
+use crate::names::{NcName, QName};
 use std::cmp::Ordering;
 use url::Url;
 

@@ -1,6 +1,6 @@
 use crate::item::Node;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub fn separated_list0<'a, P1, P2, R1, N: Node, L>(
     sep: P1,
@@ -108,7 +108,7 @@ mod tests {
     use crate::parser::combinators::tag::tag;
     use crate::parser::{ParseError, ParserState, StaticStateBuilder};
     use crate::trees::nullo::Nullo;
-    use qualname::NamespaceUri;
+    use crate::names::NamespaceUri;
 
     #[test]
     fn parser_separated_list0_test1() {

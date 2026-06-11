@@ -1,7 +1,7 @@
 //! XDM, XPath, XQuery, and XSLT errors.
 
 use core::str;
-use qualname::QName;
+use crate::names::QName;
 use std::fmt;
 use std::fmt::Formatter;
 

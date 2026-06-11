@@ -1,6 +1,6 @@
 //! Generic node tests
 
-use qualname::{NcName, QName};
+use chadpath::names::{NcName, QName};
 use std::rc::Rc;
 use chadpath::item::{Node, NodeType};
 use chadpath::output::OutputSpec;

@@ -12,7 +12,7 @@ use crate::parser::xml::dtd::pereference::pereference;
 use crate::parser::xml::misc::comment;
 use crate::parser::xml::misc::processing_instruction;
 use crate::parser::{ParseError, ParseInput, StaticState};
-use qualname::{NamespacePrefix, NamespaceUri};
+use crate::names::{NamespacePrefix, NamespaceUri};
 
 pub(crate) fn intsubset<'a, N: Node, L>()
 -> impl Fn(ParseInput<'a, N>, &mut StaticState<L>) -> Result<(ParseInput<'a, N>, Vec<()>), ParseError>

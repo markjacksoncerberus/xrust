@@ -1,9 +1,14 @@
 [package]
 name = "chadpath"
-version = "0.3.0"
+version = "0.3.1"
 keywords = ["xml", "xpath", "xslt", "html", "scraping"]
 categories = ["parser-implementations"]
 description = "XPath 1.0 / XSLT engine — a fork of xrust (Apache-2.0) with XPath positional-predicate correctness fixes and parser performance improvements. Used by chadselect."
+# 0.3.1: NameTest::matches gains a fast-path for the bare `*` wildcard — it no
+#        longer builds (and immediately discards) a QName for every node tested.
+#        `//*`-rooted steps are the hottest real-world selector shape, so this
+#        removes a per-node allocation across the whole-document sweep. No
+#        behaviour change (verified against the chadselect XPath conformance suite).
 authors = [
     # Original xrust authors (Apache-2.0):
     "Steve Ball <Steve.Ball@explain.com.au>",

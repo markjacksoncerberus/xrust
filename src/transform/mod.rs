@@ -742,6 +742,20 @@ impl NameTest {
         }
     }
     pub fn matches<N: Node>(&self, n: &N) -> bool {
+        // Fast path for the bare `*` wildcard (`{*}*`): it matches any node that
+        // *has* a name — i.e. the principal node type already produced by the
+        // axis (elements, or attributes on the attribute axis). Resolving the
+        // node's QName via `n.name()` is pure waste here, and `*`-rooted steps
+        // (`//*[…]`) are the single hottest selector shape in practice: the old
+        // code built and threw away a QName for every node in the document on
+        // every such query.
+        if let NameTest::Wildcard(
+            WildcardOrNamespaceUri::Wildcard,
+            WildcardOrName::Wildcard,
+        ) = self
+        {
+            return matches!(n.node_type(), NodeType::Element | NodeType::Attribute);
+        }
         if let Some(nm) = n.name() {
             // Must be a type of node that has a name
             match self {

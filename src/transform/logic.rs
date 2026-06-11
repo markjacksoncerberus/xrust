@@ -9,6 +9,29 @@ use crate::transform::context::{Context, StaticContext};
 use crate::value::{Operator, Value};
 use crate::xdmerror::{Error, ErrorKind};
 
+thread_local! {
+    // The boolean values `true`/`false` are immutable and produced constantly by
+    // comparison operators (every predicate `[a=b]` returns one). Interning a
+    // single `Rc<Value>` for each and cloning the `Rc` (a refcount bump) replaces
+    // a heap allocation per comparison with none. `Value` is not parameterised by
+    // the node type, so one cache serves every `Node` impl.
+    static TRUE_VALUE: Rc<Value> = Rc::new(Value::from(true));
+    static FALSE_VALUE: Rc<Value> = Rc::new(Value::from(false));
+}
+
+/// A one-item boolean result sequence, reusing a cached `Rc<Value>` so no heap
+/// allocation is made for the boolean itself (the `Vec` is still required by the
+/// `Sequence` return type).
+#[inline]
+fn bool_seq<N: Node>(b: bool) -> Sequence<N> {
+    let v = if b {
+        TRUE_VALUE.with(|t| t.clone())
+    } else {
+        FALSE_VALUE.with(|f| f.clone())
+    };
+    vec![Item::Value(v)]
+}
+
 /// Return the disjunction of all of the given functions.
 pub(crate) fn tr_or<
     N: Node,
@@ -107,7 +130,7 @@ pub(crate) fn general_comparison<
         }
     }
 
-    Ok(vec![Item::Value(Rc::new(Value::from(b)))])
+    Ok(bool_seq(b))
 }
 
 /// Value comparison of two singleton sequences.

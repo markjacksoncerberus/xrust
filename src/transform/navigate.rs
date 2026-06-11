@@ -2,7 +2,7 @@
 
 use crate::Item;
 use crate::item::{Node, NodeType, Sequence, SequenceTrait};
-use crate::transform::context::{Context, ContextBuilder, StaticContext};
+use crate::transform::context::{Context, StaticContext};
 use crate::transform::{Axis, NodeMatch, Transform};
 use crate::value::ValueData;
 use crate::xdmerror::{Error, ErrorKind};
@@ -57,18 +57,42 @@ pub(crate) fn compose<
     stctxt: &mut StaticContext<N, F, G, H>,
     steps: &Vec<Transform<N>>,
 ) -> Result<Sequence<N>, Error> {
+    // PERF: evolve a single `Context` in place across steps instead of rebuilding
+    // it with `ContextBuilder::from(&context)` every iteration. That `From` deep-
+    // clones the whole `Context` — *and* clones the context sequence a second time
+    // for `current` — only for the caller to immediately overwrite both with
+    // `.context(new)` / `.current(previous)`. Because predicates are themselves
+    // `Compose`s evaluated once per context node, those wasted full-context clones
+    // multiplied into the dominant per-query allocation churn (tens of thousands
+    // of clones for a single `//a[…]//b[…]/text()` over a few-hundred-node page).
+    //
+    // This reproduces the exact field outcome of the old
+    // `from(&context).context(new).current(previous).build()`:
+    //   * context      ← new          (and context_item ← new[0] iff new non-empty)
+    //   * current      ← previous
+    //   * current_item ← the *pre-step* context_item (None if it was None)
+    //   * i ← 0, last ← None; all other fields (templates/vars/namespaces/…) carry
+    // — but without cloning anything beyond the `previous` sequence the semantics
+    // actually require.
     let mut context = ctxt.clone();
-    let mut it = steps.iter();
-    while let Some(t) = it.next() {
-        // previous context is the last step's context.
-        // If the initial previous context is None, then the current context is also the previous context (XSLT 20.4.1)
+    for t in steps.iter() {
+        // `current` for this step is always the *original* context sequence
+        // (XSLT 20.4.1), not the evolving one.
         let previous = ctxt.context.clone();
         let new = context.dispatch(stctxt, t)?;
-        let new_ctxt = ContextBuilder::from(&context)
-            .context(new.clone())
-            .current(previous)
-            .build();
-        context = new_ctxt;
+        // `from(&context)` set current_item from the context item that was in
+        // force *before* `.context(new)` replaced it — capture it first.
+        let new_current_item = context.context_item.clone();
+        // `.context(new)`: context_item only changes when `new` is non-empty.
+        if let Some(first) = new.first() {
+            context.context_item = Some(first.clone());
+        }
+        context.context = new;
+        context.i = 0;
+        context.last = None;
+        // `.current(previous)` and the current_item carried from `from`.
+        context.current = previous;
+        context.current_item = new_current_item;
     }
     Ok(context.context)
 }
@@ -333,12 +357,21 @@ pub(crate) fn filter_seq<
     // clones (the chadselect fleet's `//tag[@attr=…]` CPU blowup). `dispatch`
     // borrows `&Context`, so reusing one Context across items is sound.
     let len = seq.len();
-    let mut inner = ContextBuilder::from(ctxt).build();
+    // PERF: `ctxt.clone()` rather than `ContextBuilder::from(ctxt)`. `from` clones
+    // the context sequence a *second* time to seed `current`, but we overwrite
+    // `current`/`current_item` immediately below, so that clone is pure waste.
+    let mut inner = ctxt.clone();
     inner.current = current;
     inner.current_item = current_item;
     inner.last = Some(len);
     seq.iter().enumerate().try_fold(vec![], |mut acc, (j, i)| {
-        inner.context = vec![i.clone()];
+        // PERF: reuse the 1-element context Vec's capacity across items instead
+        // of allocating a fresh `vec![i.clone()]` for every node being filtered.
+        // `dispatch` only ever reads (or clones) the context, never retains a
+        // reference to it, so clearing and re-pushing is sound. For a predicate
+        // over an N-node list this turns N allocations into one.
+        inner.context.clear();
+        inner.context.push(i.clone());
         inner.context_item = Some(i.clone());
         inner.i = j;
         let result = inner.dispatch(stctxt, predicate)?;
@@ -415,14 +448,18 @@ pub(crate) fn step_predicated<
     // only the focus fields per node. Previously `ContextBuilder::from(ctxt)` ran
     // inside the loop and deep-cloned the whole (possibly N-node) context every
     // iteration → O(N²). `single.current` is emptied because `step` never reads
-    // it and the predicates get their `current` explicitly via `filter_seq`; this
-    // keeps `filter_seq`'s own one-time `from(&single)` clone cheap rather than
-    // re-cloning the outer N-node context per node. See `filter_seq`.
-    let mut single = ContextBuilder::from(ctxt).build();
+    // it and the predicates get their `current` explicitly via `filter_seq`.
+    //
+    // `ctxt.clone()` (not `ContextBuilder::from(ctxt)`): `from` would clone the
+    // context sequence a second time to seed `current`, which we immediately
+    // empty — pure waste. And the per-node `single.context` Vec is reused
+    // (clear + push) rather than reallocated each iteration.
+    let mut single = ctxt.clone();
     single.current = Vec::new();
     single.current_item = None;
     for it in ctxt.context.iter() {
-        single.context = vec![it.clone()];
+        single.context.clear();
+        single.context.push(it.clone());
         single.context_item = Some(it.clone());
         single.i = 0;
         single.last = None;

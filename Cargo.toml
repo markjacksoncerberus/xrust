@@ -1,9 +1,18 @@
 [package]
 name = "chadpath"
-version = "0.3.1"
+version = "0.3.2"
 keywords = ["xml", "xpath", "xslt", "html", "scraping"]
 categories = ["parser-implementations"]
 description = "XPath 1.0 / XSLT engine — a fork of xrust (Apache-2.0) with XPath positional-predicate correctness fixes and parser performance improvements. Used by chadselect."
+# 0.3.2: per-query allocation-churn cut on the XPath evaluation path (no
+#        behaviour change; verified against the full test suite). `compose`
+#        evolves a single Context in place instead of deep-cloning it every step;
+#        predicate filtering uses `ctxt.clone()` (not `ContextBuilder::from`,
+#        which clones the context sequence twice) and reuses the per-item context
+#        Vec; boolean comparison results reuse a cached `Rc<Value>`. On a
+#        `//a[…]//b[…]/text()` shape this removed tens of thousands of full-
+#        Context clones per query (~30% fewer allocations on that path; the
+#        consuming adapter's un-boxed axis iterators take it to ~45%).
 # 0.3.1: NameTest::matches gains a fast-path for the bare `*` wildcard — it no
 #        longer builds (and immediately discards) a QName for every node tested.
 #        `//*`-rooted steps are the hottest real-world selector shape, so this

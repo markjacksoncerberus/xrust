@@ -264,7 +264,12 @@ impl<N: Node> Item<N> {
     /// Gives the double value of the item. Returns NaN if the value cannot be converted to a double.
     pub fn to_double(&self) -> f64 {
         match self {
-            Item::Node(..) => f64::NAN,
+            // XPath number(node) = number(string-value(node)): take the node's
+            // string value and convert as the number() function would (leading/
+            // trailing whitespace stripped). Previously this returned NaN
+            // unconditionally, breaking number()/sum()/numeric comparisons on
+            // every node.
+            Item::Node(n) => n.to_string().trim().parse::<f64>().unwrap_or(f64::NAN),
             Item::Function => f64::NAN,
             Item::Value(v) => v.to_double(),
         }
@@ -283,14 +288,15 @@ impl<N: Node> Item<N> {
 
     /// Compare two items.
     pub fn compare(&self, other: &Item<N>, op: Operator) -> Result<bool, Error> {
-        match self {
-            Item::Value(v) => match other {
-                Item::Value(w) => v.compare(w, op),
-                Item::Node(..) => v.compare(&Value::from(other.to_string()), op),
-                _ => Result::Err(Error::new(ErrorKind::TypeError, String::from("type error"))),
-            },
-            Item::Node(..) => {
-                other.compare(&Item::Value(Rc::new(Value::from(self.to_string()))), op)
+        // Operand order must be preserved: `self OP other`. The previous Node
+        // branch computed `other.compare(self_as_value, op)`, which swapped the
+        // operands and so INVERTED relational operators (`a > b` became `b > a`).
+        match (self, other) {
+            (Item::Value(v), Item::Value(w)) => v.compare(w, op),
+            (Item::Value(v), Item::Node(..)) => v.compare(&Value::from(other.to_string()), op),
+            (Item::Node(..), Item::Value(w)) => Value::from(self.to_string()).compare(w, op),
+            (Item::Node(..), Item::Node(..)) => {
+                Value::from(self.to_string()).compare(&Value::from(other.to_string()), op)
             }
             _ => Result::Err(Error::new(ErrorKind::TypeError, String::from("type error"))),
         }

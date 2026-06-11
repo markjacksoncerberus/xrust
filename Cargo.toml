@@ -1,6 +1,6 @@
 [package]
 name = "chadpath"
-version = "0.2.0"
+version = "0.3.0"
 keywords = ["xml", "xpath", "xslt", "html", "scraping"]
 categories = ["parser-implementations"]
 description = "XPath 1.0 / XSLT engine — a fork of xrust (Apache-2.0) with XPath positional-predicate correctness fixes and parser performance improvements. Used by chadselect."

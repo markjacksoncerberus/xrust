@@ -397,6 +397,29 @@ pub fn normalize_space<
     })
 }
 
+/// XPath `string-length` function. Returns the number of characters (Unicode
+/// scalar values) in the string-value of the argument, or of the context node
+/// when no argument is given.
+pub fn string_length<
+    N: Node,
+    F: FnMut(&str) -> Result<(), Error>,
+    G: FnMut(&str) -> Result<N, Error>,
+    H: FnMut(&Url) -> Result<String, Error>,
+>(
+    ctxt: &Context<N>,
+    stctxt: &mut StaticContext<N, F, G, H>,
+    n: &Option<Box<Transform<N>>>,
+) -> Result<Sequence<N>, Error> {
+    if n.is_none() && ctxt.context_item.is_none() {
+        return Err(Error::new(ErrorKind::DynamicAbsent, "no context item"));
+    }
+    let s = match n.as_ref() {
+        None => ctxt.context_item.as_ref().unwrap().to_string(),
+        Some(m) => ctxt.dispatch(stctxt, m)?.to_string(),
+    };
+    Ok(vec![Item::Value(Rc::new(Value::from(s.chars().count() as f64)))])
+}
+
 /// XPath translate function.
 pub fn translate<
     N: Node,

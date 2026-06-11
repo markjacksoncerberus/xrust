@@ -324,17 +324,24 @@ pub(crate) fn filter_seq<
     // The inner focus is each item of `seq` in turn; last() reports the size of
     // `seq`. `current`/`current_item` (the XSLT current node) are supplied by
     // the caller.
+    //
+    // PERF: derive the predicate-evaluation context **once** and mutate only the
+    // per-item focus fields between dispatches. The previous code rebuilt it with
+    // `ContextBuilder::from(ctxt)` inside the loop, and that `From` deep-clones
+    // the whole `Context` — including the outer context/current node sequences —
+    // on every item. For a step predicate over an N-node list that is O(N²) deep
+    // clones (the chadselect fleet's `//tag[@attr=…]` CPU blowup). `dispatch`
+    // borrows `&Context`, so reusing one Context across items is sound.
     let len = seq.len();
+    let mut inner = ContextBuilder::from(ctxt).build();
+    inner.current = current;
+    inner.current_item = current_item;
+    inner.last = Some(len);
     seq.iter().enumerate().try_fold(vec![], |mut acc, (j, i)| {
-        let result = ContextBuilder::from(ctxt)
-            .context(vec![i.clone()])
-            .context_item(Some(i.clone()))
-            .current(current.clone())
-            .current_item(current_item.clone())
-            .index(j)
-            .last(len)
-            .build()
-            .dispatch(stctxt, predicate)?;
+        inner.context = vec![i.clone()];
+        inner.context_item = Some(i.clone());
+        inner.i = j;
+        let result = inner.dispatch(stctxt, predicate)?;
         let keep = match predicate_number(&result) {
             Some(n) => n == (j as f64 + 1.0),
             None => result.to_bool(),
@@ -404,8 +411,21 @@ pub(crate) fn step_predicated<
             | Axis::PrecedingSibling
     );
     let mut acc: Sequence<N> = Vec::new();
+    // PERF: derive the per-context-node evaluation context **once**, then mutate
+    // only the focus fields per node. Previously `ContextBuilder::from(ctxt)` ran
+    // inside the loop and deep-cloned the whole (possibly N-node) context every
+    // iteration → O(N²). `single.current` is emptied because `step` never reads
+    // it and the predicates get their `current` explicitly via `filter_seq`; this
+    // keeps `filter_seq`'s own one-time `from(&single)` clone cheap rather than
+    // re-cloning the outer N-node context per node. See `filter_seq`.
+    let mut single = ContextBuilder::from(ctxt).build();
+    single.current = Vec::new();
+    single.current_item = None;
     for it in ctxt.context.iter() {
-        let single = ContextBuilder::from(ctxt).context(vec![it.clone()]).build();
+        single.context = vec![it.clone()];
+        single.context_item = Some(it.clone());
+        single.i = 0;
+        single.last = None;
         let mut nodes = step(&single, nm)?;
         // Order in axis order so position()/last() are correct regardless of
         // the node adapter's iterator order.
@@ -423,7 +443,10 @@ pub(crate) fn step_predicated<
         // The XSLT current() node within these predicates is the node the step
         // was taken from (the per-parent context node).
         for p in predicates {
-            nodes = filter_seq(ctxt, stctxt, nodes, p, vec![it.clone()], Some(it.clone()))?;
+            // Pass `&single` (cheap to clone: 1-node context, empty current) as
+            // the predicate's base context — it inherits the same templates/vars/
+            // namespaces as `ctxt`, and `filter_seq` overrides context/current.
+            nodes = filter_seq(&single, stctxt, nodes, p, vec![it.clone()], Some(it.clone()))?;
         }
         acc.extend(nodes);
     }

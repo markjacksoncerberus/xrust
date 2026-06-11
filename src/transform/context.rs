@@ -574,6 +574,7 @@ impl<N: Node> Context<N> {
             Transform::SubstringBefore(s, t) => substring_before(self, stctxt, s, t),
             Transform::SubstringAfter(s, t) => substring_after(self, stctxt, s, t),
             Transform::NormalizeSpace(s) => normalize_space(self, stctxt, s),
+            Transform::StringLength(s) => string_length(self, stctxt, s),
             Transform::Translate(s, m, t) => translate(self, stctxt, s, m, t),
             Transform::GenerateId(s) => generate_id(self, stctxt, s),
             Transform::Boolean(b) => boolean(self, stctxt, b),

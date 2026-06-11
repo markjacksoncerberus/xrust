@@ -73,16 +73,37 @@ pub(crate) fn general_comparison<
     let left = ctxt.dispatch(stctxt, l)?;
     let right = ctxt.dispatch(stctxt, r)?;
 
+    // XPath 1.0 §3.4: the relational operators (`<`, `<=`, `>`, `>=`) compare by
+    // converting BOTH operands to numbers (for node-sets, each node's
+    // string-value is converted). Only `=`/`!=` use the type-based string/
+    // number/boolean rules. This is the GENERAL-comparison path; value
+    // comparison (`lt`/`gt`) keeps string semantics via `value_comparison`.
+    let relational = matches!(
+        o,
+        Operator::LessThan
+            | Operator::LessThanEqual
+            | Operator::GreaterThan
+            | Operator::GreaterThanEqual
+    );
+
     let mut b = false;
-    for i in left {
+    'outer: for i in &left {
         for j in &right {
-            b = i.compare(j, *o)?;
+            b = if relational {
+                let (x, y) = (i.to_double(), j.to_double());
+                match o {
+                    Operator::LessThan => x < y,
+                    Operator::LessThanEqual => x <= y,
+                    Operator::GreaterThan => x > y,
+                    Operator::GreaterThanEqual => x >= y,
+                    _ => unreachable!(),
+                }
+            } else {
+                i.compare(j, *o)?
+            };
             if b {
-                break;
+                break 'outer;
             }
-        }
-        if b {
-            break;
         }
     }
 

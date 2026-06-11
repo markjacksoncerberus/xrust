@@ -257,6 +257,11 @@ impl fmt::Display for ValueData {
                     acc
                 },
             ),
+            // A boolean's string-value is "true"/"false" (XPath string()).
+            // Without this it fell through to the catch-all and rendered as "",
+            // so any top-level boolean result (boolean(), contains(), not(),
+            // true()/false(), a comparison) silently serialized to nothing.
+            ValueData::Boolean(b) => b.to_string(),
             _ => "".to_string(),
         };
         f.write_str(result.as_str())
@@ -322,10 +327,12 @@ impl Value {
     /// Convert the value to a double. If the value cannot be converted, returns Nan.
     pub fn to_double(&self) -> f64 {
         match &self.value {
-            ValueData::String(s) => s.parse::<f64>().unwrap_or(f64::NAN),
+            ValueData::String(s) => s.trim().parse::<f64>().unwrap_or(f64::NAN),
             ValueData::Integer(i) => (*i) as f64,
             ValueData::Int(i) => (*i) as f64,
             ValueData::Double(d) => *d,
+            // number(true) = 1, number(false) = 0 (XPath §4.4).
+            ValueData::Boolean(b) => if *b { 1.0 } else { 0.0 },
             _ => f64::NAN,
         }
     }

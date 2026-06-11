@@ -228,6 +228,19 @@ where
                             )
                         }
                     }
+                    "string-length" => {
+                        if a.is_empty() {
+                            Transform::StringLength(None)
+                        } else if a.len() == 1 {
+                            Transform::StringLength(Some(Box::new(a.pop().unwrap())))
+                        } else {
+                            // Wrong number of arguments
+                            Transform::Error(
+                                ErrorKind::ParseError,
+                                String::from("wrong number of arguments"),
+                            )
+                        }
+                    }
                     "translate" => {
                         if a.len() == 3 {
                             let b = a.pop().unwrap();

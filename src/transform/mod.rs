@@ -213,6 +213,9 @@ pub enum Transform<N: Node> {
     SubstringBefore(Box<Transform<N>>, Box<Transform<N>>),
     SubstringAfter(Box<Transform<N>>, Box<Transform<N>>),
     NormalizeSpace(Option<Box<Transform<N>>>),
+    /// XPath `string-length()`: number of characters in the string-value of the
+    /// argument, or of the context node when absent.
+    StringLength(Option<Box<Transform<N>>>),
     Translate(Box<Transform<N>>, Box<Transform<N>>, Box<Transform<N>>),
     GenerateId(Option<Box<Transform<N>>>),
     Boolean(Box<Transform<N>>),
@@ -381,6 +384,7 @@ impl<N: Node> Debug for Transform<N> {
             Transform::SubstringBefore(s, t) => write!(f, "substring-before({:?}, {:?})", s, t),
             Transform::SubstringAfter(s, t) => write!(f, "substring-after({:?}, {:?})", s, t),
             Transform::NormalizeSpace(_s) => write!(f, "normalize-space()"),
+            Transform::StringLength(_s) => write!(f, "string-length()"),
             Transform::Translate(s, t, u) => write!(f, "translate({:?}, {:?}, {:?})", s, t, u),
             Transform::GenerateId(_) => write!(f, "generate-id()"),
             Transform::Boolean(b) => write!(f, "boolean({:?})", b),
